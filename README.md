@@ -1,4 +1,4 @@
-# Real-Time Aerial Threat Scoring using Kalman Filter
+# End-to-end radar threat scoring system using Kalman Filter + Verilog hardware acceleration
 
 ## Overview
 A real-time aerial threat scoring framework integrating Kalman Filter-based radar tracking with a pipelined Verilog hardware accelerator.
