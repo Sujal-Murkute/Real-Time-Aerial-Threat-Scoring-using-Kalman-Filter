@@ -1,0 +1,50 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/USER/Desktop/AirDefenceRadar/verilog
+vtb_threat_scorer
+!s110 1775197742
+!i10b 1
+!s100 6MR]PH[oA2HfLZkU:]7<I2
+IN?6Ycg2LOP9Kb89@=3Jni3
+Z1 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1775197626
+Z2 8tb_threat_scorer.v
+Z3 Ftb_threat_scorer.v
+L0 33
+Z4 OV;L;10.5b;63
+r1
+!s85 0
+31
+!s108 1775197742.000000
+!s107 tb_threat_scorer.v|
+Z5 !s90 -reportprogress|300|tb_threat_scorer.v|
+!i113 1
+Z6 tCvgOpt 0
+vthreat_scorer
+!s110 1775199420
+!i10b 1
+!s100 d]bj80jP[oeE4mzK5GCnm3
+InN8Ye6US5PH;alhjE7jeb1
+R1
+R0
+w1775199377
+R2
+R3
+L0 6
+R4
+r1
+!s85 0
+31
+!s108 1775199420.000000
+!s107 tb_threat_scorer.v|
+R5
+!i113 1
+R6
