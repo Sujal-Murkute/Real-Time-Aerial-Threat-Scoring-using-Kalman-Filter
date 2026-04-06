@@ -5,202 +5,267 @@
 <title>ADIR-7 // AIR DEFENSE INTEGRATED RADAR</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════════════════
-   ADIR-7  ·  Military Radar UI  v3  ·  Complete CSS
-   ═══════════════════════════════════════════════════════ */
+/* ── ROOT ── */
 :root{
-  --g:#00ff41; --gdim:#00aa2a; --gdk:#002a10;
+  --g:#00ff41; --gdim:#00aa2a; --gdk:#001a0a;
   --amb:#ffb300; --red:#ff2222; --cyan:#00ccff;
-  --bg:#020d05; --pb:rgba(0,16,6,0.97); --bdr:rgba(0,255,65,0.22);
+  --bg:#020d05; --pb:rgba(0,14,5,0.97); --bdr:rgba(0,255,65,0.2);
   --mono:'Share Tech Mono',monospace; --disp:'Orbitron',sans-serif;
 }
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--g);font-family:var(--mono);height:100vh;overflow:hidden;user-select:none}
-body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:900;
-  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.06) 2px,rgba(0,0,0,0.06) 4px)}
-body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:899;
-  background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.6) 100%)}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--g);font-family:var(--mono);user-select:none;}
 
-/* Layout */
-#shell{display:grid;grid-template-rows:40px 1fr 32px;height:100vh}
-#body{display:grid;grid-template-columns:205px 1fr 205px;overflow:hidden}
+/* CRT overlay */
+body::before{content:'';position:fixed;inset:0;z-index:999;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.05) 2px,rgba(0,0,0,0.05) 4px);}
+body::after{content:'';position:fixed;inset:0;z-index:998;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 42%,rgba(0,0,0,0.55) 100%);}
 
-/* Top bar */
-#topbar{display:flex;align-items:center;justify-content:space-between;padding:0 16px;
-  border-bottom:1px solid var(--bdr);background:rgba(0,10,4,0.99);z-index:10}
-.sys-name{font-family:var(--disp);font-size:10px;font-weight:900;letter-spacing:5px;text-shadow:0 0 10px var(--g)}
-.sys-class{font-size:7px;letter-spacing:3px;color:var(--gdim);margin-top:1px}
-.top-meta{display:flex;gap:20px;align-items:center}
-.mb{text-align:right;font-size:7px;letter-spacing:2px;color:var(--gdim);line-height:1.8}
-.mb span{color:var(--g);font-size:9px}
-.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--g);
-  box-shadow:0 0 7px var(--g);animation:blink 2s infinite;margin-right:4px}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+/* ── SHELL ── */
+#shell{
+  display:grid;
+  grid-template-rows:42px 1fr 34px;
+  width:100vw; height:100vh;
+}
 
-/* Panels */
-.panel{background:var(--pb);display:flex;flex-direction:column;overflow:hidden}
-#lp{border-right:1px solid var(--bdr)}
-#rp{border-left:1px solid var(--bdr)}
-.ph{font-family:var(--disp);font-size:7px;letter-spacing:4px;color:var(--gdim);
-  padding:7px 12px;border-bottom:1px solid var(--bdr);background:rgba(0,255,65,0.02);flex-shrink:0}
-.ps{padding:8px 12px;border-bottom:1px solid rgba(0,255,65,0.08);flex-shrink:0}
-.pl{font-size:7px;letter-spacing:3px;color:var(--gdim);margin-bottom:3px}
-.pv{font-size:12px;color:var(--g);text-shadow:0 0 5px var(--g)}
-.pv.lg{font-family:var(--disp);font-size:19px;font-weight:700}
-.pv.amb{color:var(--amb);text-shadow:0 0 5px var(--amb)}
-.pv.red{color:var(--red);text-shadow:0 0 7px var(--red)}
-.pv.sm{font-size:10px;letter-spacing:1px}
-.pv.cyan{color:var(--cyan);text-shadow:0 0 5px var(--cyan)}
-.bw{height:3px;background:rgba(0,255,65,0.09);border:1px solid var(--bdr);border-radius:2px;overflow:hidden;margin-top:4px}
-.bf{height:100%;box-shadow:0 0 4px var(--g);transition:width 0.7s}
-.bf.lo{background:linear-gradient(90deg,var(--g),#80ff80)}
-.bf.mid{background:linear-gradient(90deg,var(--g),var(--amb))}
-.bf.hi{background:linear-gradient(90deg,var(--amb),var(--red));box-shadow:0 0 5px var(--red)}
-.bkd{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-top:4px}
-.bkd .pl{font-size:6px}
-.bkd .pv{font-family:var(--disp);font-size:15px}
-#sig{display:flex;gap:2px;align-items:flex-end;margin-top:4px;height:20px}
-.sb{width:8px}
-#log{flex:1;overflow:hidden;padding:5px 12px;font-size:8px;line-height:1.8;color:var(--gdim)}
+/* ── TOP BAR ── */
+#topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 18px;
+  border-bottom:1px solid var(--bdr);
+  background:rgba(0,8,3,1);
+  z-index:10;
+}
+.sysname{font-family:var(--disp);font-size:10px;font-weight:900;letter-spacing:5px;text-shadow:0 0 12px var(--g);}
+.syscls{font-size:7px;letter-spacing:3px;color:var(--gdim);margin-top:1px;}
+.topmeta{display:flex;gap:22px;align-items:center;}
+.mb{text-align:right;font-size:7px;letter-spacing:2px;color:var(--gdim);line-height:1.75;}
+.mb b{color:var(--g);font-size:9px;font-weight:400;}
+.livdot{display:inline-block;width:7px;height:7px;border-radius:50%;
+  background:var(--g);box-shadow:0 0 8px var(--g);animation:blink 2s infinite;margin-right:5px;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.15}}
 
-/* Toggle buttons row */
-.toggle-row{display:flex;gap:4px;padding:6px 12px;border-bottom:1px solid rgba(0,255,65,0.08);flex-shrink:0}
-.tbtn{flex:1;font-family:var(--mono);font-size:7px;letter-spacing:2px;
-  color:var(--gdim);background:transparent;border:1px solid rgba(0,255,65,0.2);
-  padding:4px 0;cursor:pointer;transition:all 0.15s;text-transform:uppercase}
-.tbtn.on{color:var(--g);border-color:var(--g);background:rgba(0,255,65,0.08);box-shadow:0 0 6px rgba(0,255,65,0.2)}
-.tbtn.red-btn{color:var(--red);border-color:rgba(255,34,34,0.4)}
-.tbtn.red-btn.on{background:rgba(255,34,34,0.1);box-shadow:0 0 6px rgba(255,34,34,0.3)}
+/* ── BODY ── */
+#body{display:grid;grid-template-columns:210px 1fr 210px;overflow:hidden;}
 
-/* Target list */
-#tlist{flex:1;overflow-y:auto}
-#tlist::-webkit-scrollbar{width:2px}
-#tlist::-webkit-scrollbar-thumb{background:var(--gdk)}
-.tr{display:grid;grid-template-columns:20px 1fr 32px;align-items:center;padding:5px 12px;
-  border-bottom:1px solid rgba(0,255,65,0.05);cursor:pointer;transition:background 0.1s;font-size:9px}
-.tr:hover{background:rgba(0,255,65,0.05)}
-.tr.sel{background:rgba(0,255,65,0.09);border-left:2px solid var(--g)}
-.tr.mis{border-left:2px solid var(--red)}
-.trid{font-size:8px;color:var(--gdim)}
-.ttype{font-size:9px}
-.ttype.drone{color:var(--g)}
-.ttype.aircraft{color:var(--amb)}
-.ttype.missile{color:var(--red)}
-.tspd{font-size:7px;color:var(--gdim)}
-.tscr{text-align:right;font-family:var(--disp);font-size:9px}
+/* ── PANELS ── */
+.panel{background:var(--pb);display:flex;flex-direction:column;overflow:hidden;}
+#lp{border-right:1px solid var(--bdr);}
+#rp{border-left:1px solid var(--bdr);}
 
-/* Centre */
-#ctr{position:relative;display:flex;align-items:center;justify-content:center;
-  background:radial-gradient(ellipse at center,#001808 0%,#000c04 55%,#000500 100%);overflow:hidden}
-#radar{display:block;cursor:crosshair}
-#chud{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);
-  font-size:8px;letter-spacing:2px;color:rgba(0,255,65,0.3);pointer-events:none;white-space:nowrap}
+.ph{
+  font-family:var(--disp);font-size:7px;letter-spacing:4px;color:var(--gdim);
+  padding:7px 13px;border-bottom:1px solid var(--bdr);
+  background:rgba(0,255,65,0.025);flex-shrink:0;
+}
+.ps{padding:9px 13px;border-bottom:1px solid rgba(0,255,65,0.07);flex-shrink:0;}
+.pl{font-size:7px;letter-spacing:3px;color:var(--gdim);margin-bottom:4px;}
+.pv{font-size:12px;color:var(--g);text-shadow:0 0 5px var(--g);}
+.pv.lg{font-family:var(--disp);font-size:20px;font-weight:700;}
+.pv.amb{color:var(--amb);text-shadow:0 0 6px var(--amb);}
+.pv.red{color:var(--red);text-shadow:0 0 8px var(--red);}
+.pv.sm{font-size:10px;letter-spacing:1px;}
+.pv.cy{color:var(--cyan);text-shadow:0 0 6px var(--cyan);}
 
-/* Lock box */
-#sbox{position:absolute;bottom:24px;right:8px;background:rgba(0,8,3,0.95);
-  border:1px solid var(--bdr);padding:9px 12px;min-width:165px;display:none;z-index:50}
-#sbox.on{display:block}
-.sbh{font-family:var(--disp);font-size:7px;letter-spacing:4px;color:var(--gdim);
-  margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--bdr)}
-.sbr{display:flex;justify-content:space-between;gap:16px;margin:2px 0;font-size:8px}
-.sbk{color:var(--gdim)}
-.sbv{color:var(--g)}
-.sbv.red{color:var(--red)}
-.sbv.amb{color:var(--amb)}
-.sbv.cyan{color:var(--cyan)}
+.bw{height:3px;background:rgba(0,255,65,0.08);border:1px solid var(--bdr);border-radius:2px;overflow:hidden;margin-top:5px;}
+.bf{height:100%;transition:width 0.6s;}
+.bf.lo{background:linear-gradient(90deg,var(--g),#55ff77);}
+.bf.md{background:linear-gradient(90deg,var(--g),var(--amb));}
+.bf.hi{background:linear-gradient(90deg,var(--amb),var(--red));box-shadow:0 0 5px var(--red);}
 
-/* Intercept btn */
-#intercept-btn{margin-top:8px;width:100%;font-family:var(--mono);font-size:8px;
-  letter-spacing:3px;color:var(--cyan);background:rgba(0,204,255,0.07);
-  border:1px solid rgba(0,204,255,0.35);padding:6px 0;cursor:pointer;
-  text-transform:uppercase;transition:background 0.15s,box-shadow 0.15s}
-#intercept-btn:hover{background:rgba(0,204,255,0.18);box-shadow:0 0 10px rgba(0,204,255,0.25)}
-#intercept-btn:active{background:rgba(0,204,255,0.3)}
+.bkd{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-top:5px;}
+.bkd .pl{font-size:6px;}
+.bkd .pv{font-family:var(--disp);font-size:16px;}
 
-/* Threat graph canvas */
-#graph-wrap{padding:8px 12px;border-bottom:1px solid rgba(0,255,65,0.08);flex-shrink:0}
-#graph-wrap .pl{margin-bottom:4px}
-#threat-graph{display:block;width:100%;height:60px;background:rgba(0,255,65,0.03);border:1px solid var(--bdr)}
+#sig{display:flex;gap:2px;align-items:flex-end;margin-top:5px;height:20px;}
+.sb{width:9px;}
 
-/* Bottom bar */
-#btm{display:flex;align-items:center;justify-content:space-between;padding:0 16px;
-  border-top:1px solid var(--bdr);background:rgba(0,10,4,0.99);font-size:8px;letter-spacing:2px;color:var(--gdim)}
-#malert{font-family:var(--disp);font-size:9px;letter-spacing:4px;color:var(--red);
-  text-shadow:0 0 10px var(--red);animation:flash 0.6s infinite;display:none}
-@keyframes flash{0%,100%{opacity:1}50%{opacity:0.1}}
+#log{flex:1;overflow:hidden;padding:6px 13px;font-size:8px;line-height:1.85;color:var(--gdim);}
 
-/* Boot */
-#boot{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;
-  align-items:center;justify-content:center;z-index:999;gap:10px}
-.bt{font-family:var(--disp);font-size:12px;letter-spacing:6px;text-shadow:0 0 14px var(--g)}
-.bs{font-size:8px;letter-spacing:3px;color:var(--gdim)}
-#bbw{width:260px;height:3px;background:rgba(0,255,65,0.1);border:1px solid var(--bdr);margin-top:8px}
-#bbar{height:100%;background:var(--g);width:0%;transition:width 0.25s;box-shadow:0 0 8px var(--g)}
-#bstat{font-size:8px;letter-spacing:2px;color:var(--gdim);margin-top:6px}
+/* toggle buttons */
+.trow{display:flex;gap:4px;padding:6px 13px;border-bottom:1px solid rgba(0,255,65,0.07);flex-shrink:0;}
+.tbtn{
+  flex:1;font-family:var(--mono);font-size:7px;letter-spacing:2px;
+  color:var(--gdim);background:transparent;
+  border:1px solid rgba(0,255,65,0.18);
+  padding:4px 0;cursor:pointer;transition:all 0.15s;text-transform:uppercase;
+}
+.tbtn.on{color:var(--g);border-color:var(--g);background:rgba(0,255,65,0.07);box-shadow:0 0 5px rgba(0,255,65,0.18);}
+.tbtn.rbtn{color:var(--red);border-color:rgba(255,34,34,0.3);}
+.tbtn.rbtn.on{background:rgba(255,34,34,0.08);box-shadow:0 0 5px rgba(255,34,34,0.25);}
 
-/* Mission report modal */
-#report-modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;
-  display:none;align-items:center;justify-content:center}
-#report-modal.on{display:flex}
-#report-box{background:#010f04;border:1px solid var(--g);padding:20px;width:520px;max-height:80vh;overflow-y:auto}
-#report-box h2{font-family:var(--disp);font-size:10px;letter-spacing:5px;color:var(--g);margin-bottom:12px}
-#report-content{font-size:9px;line-height:1.9;color:var(--gdim);white-space:pre}
-.report-btns{display:flex;gap:8px;margin-top:12px}
-.rbtn{flex:1;font-family:var(--mono);font-size:8px;letter-spacing:3px;padding:7px;
-  cursor:pointer;text-transform:uppercase;border:1px solid var(--bdr);background:transparent;color:var(--g)}
-.rbtn:hover{background:rgba(0,255,65,0.1)}
-.rbtn.dl{color:var(--cyan);border-color:rgba(0,204,255,0.4)}
+/* target list */
+#tlist{flex:1;overflow-y:auto;}
+#tlist::-webkit-scrollbar{width:2px;}
+#tlist::-webkit-scrollbar-thumb{background:var(--gdk);}
+.tr{
+  display:grid;grid-template-columns:22px 1fr 34px;
+  align-items:center;padding:5px 13px;
+  border-bottom:1px solid rgba(0,255,65,0.05);
+  cursor:pointer;transition:background 0.1s;
+}
+.tr:hover{background:rgba(0,255,65,0.05);}
+.tr.sel{background:rgba(0,255,65,0.08);border-left:2px solid var(--g);}
+.tr.mis{border-left:2px solid var(--red);}
+.trid{font-size:8px;color:var(--gdim);}
+.ttype{font-size:9px;}
+.ttype.drone{color:var(--g);}
+.ttype.aircraft{color:var(--amb);}
+.ttype.missile{color:var(--red);}
+.tspd{font-size:7px;color:var(--gdim);}
+.tscr{text-align:right;font-family:var(--disp);font-size:9px;}
+
+/* graph */
+#gwrap{padding:7px 13px;border-bottom:1px solid rgba(0,255,65,0.07);flex-shrink:0;}
+#gwrap .pl{margin-bottom:4px;}
+#tgraph{display:block;width:100%;height:56px;background:rgba(0,255,65,0.025);border:1px solid var(--bdr);}
+
+/* ── CENTRE ── */
+#ctr{
+  position:relative;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at center,#001506 0%,#000b03 55%,#000400 100%);
+  overflow:hidden;
+}
+#radar{display:block;cursor:crosshair;}
+#hud{
+  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+  font-size:8px;letter-spacing:2px;color:rgba(0,255,65,0.28);
+  pointer-events:none;white-space:nowrap;
+}
+
+/* lock box */
+#sbox{
+  position:absolute;bottom:26px;right:10px;
+  background:rgba(0,6,2,0.96);border:1px solid var(--bdr);
+  padding:10px 13px;min-width:166px;display:none;z-index:50;
+}
+#sbox.on{display:block;}
+.sbh{
+  font-family:var(--disp);font-size:7px;letter-spacing:4px;color:var(--gdim);
+  margin-bottom:7px;padding-bottom:5px;border-bottom:1px solid var(--bdr);
+}
+.sbr{display:flex;justify-content:space-between;gap:14px;margin:3px 0;font-size:8px;}
+.sbk{color:var(--gdim);}
+.sbv{color:var(--g);}
+.sbv.red{color:var(--red);}
+.sbv.amb{color:var(--amb);}
+.sbv.cy{color:var(--cyan);}
+
+#intbtn{
+  margin-top:9px;width:100%;
+  font-family:var(--mono);font-size:8px;letter-spacing:3px;
+  color:var(--cyan);background:rgba(0,204,255,0.06);
+  border:1px solid rgba(0,204,255,0.3);
+  padding:7px 0;cursor:pointer;text-transform:uppercase;
+  transition:background 0.15s;
+}
+#intbtn:hover{background:rgba(0,204,255,0.15);}
+
+/* ── BOTTOM BAR ── */
+#btm{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 18px;border-top:1px solid var(--bdr);
+  background:rgba(0,8,3,1);
+  font-size:8px;letter-spacing:2px;color:var(--gdim);
+}
+#malert{
+  font-family:var(--disp);font-size:9px;letter-spacing:4px;
+  color:var(--red);text-shadow:0 0 10px var(--red);
+  animation:flash 0.65s infinite;display:none;
+}
+@keyframes flash{0%,100%{opacity:1}50%{opacity:0.08}}
+
+/* ── BOOT ── */
+#boot{
+  position:fixed;inset:0;background:var(--bg);z-index:9999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;
+}
+.bt{font-family:var(--disp);font-size:13px;letter-spacing:6px;text-shadow:0 0 16px var(--g);}
+.bs{font-size:8px;letter-spacing:3px;color:var(--gdim);}
+#bpw{width:270px;height:3px;background:rgba(0,255,65,0.09);border:1px solid var(--bdr);margin-top:10px;}
+#bpbar{height:100%;background:var(--g);width:0%;transition:width 0.22s;box-shadow:0 0 8px var(--g);}
+#bstat{font-size:8px;letter-spacing:2px;color:var(--gdim);margin-top:7px;}
+
+/* ── REPORT MODAL ── */
+#rmodal{
+  position:fixed;inset:0;background:rgba(0,0,0,0.88);
+  z-index:9998;display:none;align-items:center;justify-content:center;
+}
+#rmodal.on{display:flex;}
+#rbox{
+  background:#010e04;border:1px solid var(--g);
+  padding:22px;width:530px;max-height:78vh;overflow-y:auto;
+}
+#rbox h2{font-family:var(--disp);font-size:10px;letter-spacing:5px;color:var(--g);margin-bottom:13px;}
+#rcontent{font-size:9px;line-height:1.9;color:var(--gdim);white-space:pre;}
+.rbtns{display:flex;gap:9px;margin-top:13px;}
+.rbtn{
+  flex:1;font-family:var(--mono);font-size:8px;letter-spacing:3px;
+  padding:8px;cursor:pointer;text-transform:uppercase;
+  border:1px solid var(--bdr);background:transparent;color:var(--g);
+}
+.rbtn:hover{background:rgba(0,255,65,0.09);}
+.rbtn.dl{color:var(--cyan);border-color:rgba(0,204,255,0.35);}
 </style>
 </head>
 <body>
 
-<!-- BOOT SCREEN -->
+<!-- ── BOOT SCREEN ── -->
 <div id="boot">
-  <div class="bt">ADIR-7 SYSTEM INITIALISING</div>
+  <div class="bt">ADIR-7 // SYSTEM INITIALISING</div>
   <div class="bs">LOADING TARGET DATA FROM FILES</div>
-  <div id="bbw"><div id="bbar"></div></div>
+  <div id="bpw"><div id="bpbar"></div></div>
   <div id="bstat">READING data/input_data.txt ...</div>
 </div>
 
-<!-- MISSION REPORT MODAL -->
-<div id="report-modal">
-  <div id="report-box">
+<!-- ── REPORT MODAL ── -->
+<div id="rmodal">
+  <div id="rbox">
     <h2>◈ MISSION REPORT</h2>
-    <pre id="report-content"></pre>
-    <div class="report-btns">
-      <button class="rbtn dl" onclick="downloadReport()">⬇ DOWNLOAD TXT</button>
-      <button class="rbtn" onclick="closeReport()">✕ CLOSE</button>
+    <pre id="rcontent"></pre>
+    <div class="rbtns">
+      <button class="rbtn dl" onclick="dlReport()">⬇ DOWNLOAD</button>
+      <button class="rbtn"    onclick="closeReport()">✕ CLOSE</button>
     </div>
   </div>
 </div>
 
-<!-- MAIN SHELL -->
+<!-- ── MAIN SHELL ── -->
 <div id="shell">
+
+  <!-- TOP BAR -->
   <div id="topbar">
     <div>
-      <div class="sys-name">ADIR-7 // AIR DEFENSE INTEGRATED RADAR</div>
-      <div class="sys-class">CLASSIFICATION: TOP SECRET // SECTOR DELTA-9 // ACTIVE</div>
+      <div class="sysname">ADIR-7 // AIR DEFENSE INTEGRATED RADAR</div>
+      <div class="syscls">CLASSIFICATION: TOP SECRET // SECTOR DELTA-9 // ACTIVE</div>
     </div>
-    <div class="top-meta">
-      <div class="mb">MODE<br><span>PULSE-DOPPLER</span></div>
-      <div class="mb">FREQ<br><span>9.4 GHz</span></div>
-      <div class="mb">RANGE<br><span>350 km</span></div>
-      <div class="mb">TARGETS<br><span id="top-cnt">—</span></div>
-      <div class="mb"><span class="dot"></span><span id="clock">--:--:--</span></div>
+    <div class="topmeta">
+      <div class="mb">MODE<br><b>PULSE-DOPPLER</b></div>
+      <div class="mb">FREQ<br><b>9.4 GHz</b></div>
+      <div class="mb">RANGE<br><b>350 km</b></div>
+      <div class="mb">TARGETS<br><b id="tc">—</b></div>
+      <div class="mb"><span class="livdot"></span><b id="clk">--:--:--</b></div>
     </div>
   </div>
 
+  <!-- BODY -->
   <div id="body">
 
     <!-- LEFT PANEL -->
     <div class="panel" id="lp">
       <div class="ph">◈ SYSTEM STATUS</div>
-      <div class="ps"><div class="pl">TRACKED TARGETS</div><div class="pv lg" id="lp-cnt">—</div></div>
+
+      <div class="ps">
+        <div class="pl">TRACKED TARGETS</div>
+        <div class="pv lg" id="lp-cnt">—</div>
+      </div>
+
       <div class="ps">
         <div class="pl">THREAT LEVEL</div>
         <div class="pv lg amb" id="lp-tlvl">—</div>
-        <div class="bw"><div class="bf lo" id="lp-tbar" style="width:0%"></div></div>
+        <div class="bw"><div class="bf lo" id="lp-tbar" style="width:0"></div></div>
       </div>
+
       <div class="ps">
         <div class="pl">OBJECT BREAKDOWN</div>
         <div class="bkd">
@@ -209,40 +274,52 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:899;
           <div><div class="pl" style="font-size:6px">MSLE</div><div class="pv red" id="lp-ms">0</div></div>
         </div>
       </div>
-      <div class="ps"><div class="pl">SIGNAL STRENGTH</div><div id="sig"></div></div>
-      <div class="ps"><div class="pl">RADAR UPTIME</div><div class="pv sm" id="uptime">00:00:00</div></div>
+
+      <div class="ps">
+        <div class="pl">SIGNAL STRENGTH</div>
+        <div id="sig"></div>
+      </div>
+
+      <div class="ps">
+        <div class="pl">RADAR UPTIME</div>
+        <div class="pv sm" id="upt">00:00:00</div>
+      </div>
+
       <div class="ps">
         <div class="pl">INTERCEPT STATUS</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:4px">
-          <div><div class="pl" style="font-size:6px">FIRED</div><div class="pv cyan" id="lp-fired">0</div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:5px;">
+          <div><div class="pl" style="font-size:6px">FIRED</div><div class="pv cy" id="lp-fired">0</div></div>
           <div><div class="pl" style="font-size:6px">HITS</div><div class="pv" id="lp-hits">0</div></div>
         </div>
       </div>
+
       <div class="ps">
         <div class="pl">KILL RATIO</div>
-        <div class="pv sm" id="lp-ratio">—</div>
+        <div class="pv sm" id="lp-kr">—</div>
       </div>
 
       <!-- Feature toggles -->
-      <div class="toggle-row">
-        <button class="tbtn on" id="btn-trails" onclick="toggleFeature('trails')">TRAILS</button>
-        <button class="tbtn on" id="btn-zones"  onclick="toggleFeature('zones')">ZONES</button>
-        <button class="tbtn on" id="btn-pip"    onclick="toggleFeature('pip')">PIP</button>
+      <div class="trow">
+        <button class="tbtn on" id="btn-trails" onclick="tog('trails')">TRAILS</button>
+        <button class="tbtn on" id="btn-zones"  onclick="tog('zones')">ZONES</button>
+        <button class="tbtn on" id="btn-pip"    onclick="tog('pip')">PIP</button>
       </div>
-      <div class="toggle-row">
-        <button class="tbtn red-btn" id="btn-auto" onclick="toggleFeature('auto')">AUTO-INT</button>
-        <button class="tbtn" id="btn-sound" onclick="toggleFeature('sound')">SOUND</button>
-        <button class="tbtn" onclick="showReport()">REPORT</button>
+      <div class="trow">
+        <button class="tbtn rbtn" id="btn-auto" onclick="tog('auto')">AUTO-INT</button>
+        <button class="tbtn"      id="btn-snd"  onclick="tog('snd')">SOUND</button>
+        <button class="tbtn"                     onclick="showReport()">REPORT</button>
       </div>
 
-      <div class="ph" style="margin-top:auto">◈ SYSTEM LOG</div>
+      <div class="ph" style="margin-top:auto;">◈ SYSTEM LOG</div>
       <div id="log"></div>
     </div>
 
     <!-- CENTRE -->
     <div id="ctr">
       <canvas id="radar"></canvas>
-      <div id="chud">BRG: ---°  //  RNG: --- km</div>
+      <div id="hud">BRG: ---°  //  RNG: --- km</div>
+
+      <!-- Lock box -->
       <div id="sbox">
         <div class="sbh">◈ TARGET LOCK</div>
         <div class="sbr"><span class="sbk">ID</span><span class="sbv" id="sb-id">—</span></div>
@@ -254,9 +331,9 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:899;
         <div class="sbr"><span class="sbk">DIRECTION</span><span class="sbv" id="sb-dir">—</span></div>
         <div class="sbr"><span class="sbk">RTL SCORE</span><span class="sbv" id="sb-vs">—</span></div>
         <div class="sbr"><span class="sbk">LIVE THREAT</span><span class="sbv red" id="sb-lt">—</span></div>
-        <div class="sbr"><span class="sbk">HIT PROB</span><span class="sbv cyan" id="sb-hp">—</span></div>
+        <div class="sbr"><span class="sbk">HIT PROB</span><span class="sbv cy" id="sb-hp">—</span></div>
         <div class="sbr"><span class="sbk">STATUS</span><span class="sbv amb" id="sb-st">—</span></div>
-        <button id="intercept-btn" onclick="fireInterceptor()">⬆ LAUNCH INTERCEPTOR  [I]</button>
+        <button id="intbtn" onclick="fireInterceptor()">⬆ LAUNCH INTERCEPTOR  [I]</button>
       </div>
     </div>
 
@@ -266,9 +343,9 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:899;
       <div id="tlist"></div>
 
       <!-- Threat graph -->
-      <div id="graph-wrap">
+      <div id="gwrap">
         <div class="pl">THREAT HISTORY</div>
-        <canvas id="threat-graph"></canvas>
+        <canvas id="tgraph"></canvas>
       </div>
 
       <div class="ph">◈ TOP THREAT</div>
@@ -279,554 +356,620 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:899;
       <div class="ps">
         <div class="pl">LIVE THREAT INDEX</div>
         <div class="pv red lg" id="tt-th">—</div>
-        <div class="bw"><div class="bf hi" id="tt-bar" style="width:0%"></div></div>
+        <div class="bw"><div class="bf hi" id="tt-bar" style="width:0"></div></div>
       </div>
-      <div class="ps"><div class="pl">INTERCEPT STATUS</div><div class="pv sm" id="tt-st">—</div></div>
+      <div class="ps"><div class="pl">STATUS</div><div class="pv sm" id="tt-st">—</div></div>
     </div>
 
   </div><!-- /#body -->
 
+  <!-- BOTTOM BAR -->
   <div id="btm">
-    <div>ADIR-7 v3.0 // BUILD 20240601 // UPTIME: <span id="bt-up">00:00:00</span></div>
-    <div id="malert">⚠ MISSILE INBOUND — INTERCEPT REQUIRED</div>
-    <div>GRID: SECTOR-DELTA-9 // ELEVATION: 2.4 km // ANTENNA: NOMINAL</div>
+    <span>ADIR-7 v4.0 // UPTIME: <span id="btup">00:00:00</span></span>
+    <span id="malert">⚠ MISSILE INBOUND — INTERCEPT REQUIRED</span>
+    <span>GRID: SECTOR-DELTA-9 // ANTENNA: NOMINAL</span>
   </div>
+
 </div><!-- /#shell -->
 
 <script>
 'use strict';
 // ================================================================
-// ADIR-7  v3  —  Complete Radar System
-// Features: Threat zones · Target trails · PIP · Auto-intercept
-//           Sound alerts · Threat graph · Mission report · Kill ratio
+//  ADIR-7  v4  —  Clean rebuild
+//  Maneuvering targets: waypoint steering + evasive action
+//  Speed: Drone slow, Aircraft medium, Missile fast
 // ================================================================
 
-// ── CANVAS ────────────────────────────────────────────────────────
+// ── CANVAS ──
 const canvas = document.getElementById('radar');
-const ctx    = canvas.getContext('2d');
-function fitCanvas(){
-  const c=document.getElementById('ctr');
-  const s=Math.min(c.clientWidth,c.clientHeight)-16;
-  canvas.width=s; canvas.height=s;
+const ctx = canvas.getContext('2d');
+
+function sizeCanvas(){
+  const el = document.getElementById('ctr');
+  const s  = Math.min(el.clientWidth, el.clientHeight) - 16;
+  canvas.width  = s;
+  canvas.height = s;
 }
-fitCanvas();
-window.addEventListener('resize',fitCanvas);
-const CX=()=>canvas.width/2, CY=()=>canvas.height/2, RAD=()=>canvas.width/2-32;
+sizeCanvas();
+window.addEventListener('resize', sizeCanvas);
 
-// ── STATE ─────────────────────────────────────────────────────────
-let targets=[],selected=null,interceptors=[],explosions=[];
-let startMs=Date.now(),logLines=[],frame=0;
-let interceptFired=0,interceptHits=0;
-let threatHistory={}; // {id:[...scores]}  for graph
-let engagementLog=[];  // for mission report
-let screenShake=0;     // frames remaining for shake effect
+const CX  = () => canvas.width  / 2;
+const CY  = () => canvas.height / 2;
+const RAD = () => canvas.width  / 2 - 30;
 
-// ── FEATURE FLAGS ─────────────────────────────────────────────────
-const features={trails:true,zones:true,pip:true,auto:false,sound:false};
+// ── STATE ──
+let targets      = [];
+let selected     = null;
+let interceptors = [];
+let explosions   = [];
+let startMs      = Date.now();
+let logs         = [];
+let frame        = 0;
+let iFired       = 0;
+let iHits        = 0;
+let thHist       = {};   // { id: [score, ...] }
+let engLog       = [];
+let shake        = 0;
 
-function toggleFeature(f){
-  features[f]=!features[f];
-  const btn=document.getElementById('btn-'+f);
-  if(btn) btn.classList.toggle('on',features[f]);
-  addLog((features[f]?'ENABLED':'DISABLED')+': '+f.toUpperCase());
+// ── FEATURES ──
+const F = { trails:true, zones:true, pip:true, auto:false, snd:false };
+
+function tog(k){
+  F[k] = !F[k];
+  const b = document.getElementById('btn-'+k);
+  if(b) b.classList.toggle('on', F[k]);
+  log((F[k]?'ON':'OFF')+': '+k.toUpperCase());
 }
 
-// ── WEB AUDIO (sound alerts) ──────────────────────────────────────
-const AudioCtx = window.AudioContext||window.webkitAudioContext;
-let audioCtx=null;
-
-function ensureAudio(){
-  if(!audioCtx) audioCtx=new AudioCtx();
-}
-
-function playBeep(freq,dur,type='sine',vol=0.15){
-  if(!features.sound) return;
+// ── AUDIO ──
+let actx = null;
+function beep(freq, dur, type, vol){
+  if(!F.snd) return;
   try{
-    ensureAudio();
-    const osc=audioCtx.createOscillator();
-    const gain=audioCtx.createGain();
-    osc.connect(gain); gain.connect(audioCtx.destination);
-    osc.type=type; osc.frequency.value=freq;
-    gain.gain.setValueAtTime(vol,audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+dur);
-    osc.start(); osc.stop(audioCtx.currentTime+dur);
+    if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)();
+    const o = actx.createOscillator();
+    const g = actx.createGain();
+    o.connect(g); g.connect(actx.destination);
+    o.type = type||'sine'; o.frequency.value = freq;
+    g.gain.setValueAtTime(vol||0.12, actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, actx.currentTime+dur);
+    o.start(); o.stop(actx.currentTime+dur);
   }catch(e){}
 }
 
-function playMissileAlert(){ playBeep(880,0.4,'sawtooth',0.2); }
-function playLaunch()       { playBeep(440,0.3,'square',0.15); }
-function playExplosion()    { playBeep(120,0.5,'sawtooth',0.25); }
+// ── HELPERS ──
+function tp(speed){ return speed<300?'DRONE':speed<700?'AIRCRAFT':'MISSILE'; }
 
-// ── HELPERS ───────────────────────────────────────────────────────
-function getType(s){ return s<300?'DRONE':s<700?'AIRCRAFT':'MISSILE'; }
-
-function calcLiveThreat(t){
-  const maxR=RAD(),dp=Math.hypot(t.px,t.py);
-  const dn=Math.max(0,1-dp/maxR);
-  const sn=Math.min(t.speed,980)/980;
-  const rn=Math.min(t.rcs*10,150)/150;
-  const dir=t.approach===1?1:0;
-  return Math.min(9,Math.round(((2.5*dn+1.5*sn+1.0*rn+2.0*dir)/7.0)*9));
+function liveThreat(t){
+  const r   = RAD();
+  const dp  = Math.hypot(t.px, t.py);
+  const dn  = Math.max(0, 1 - dp/r);
+  const sn  = Math.min(t.speed,980)/980;
+  const rn  = Math.min(t.rcs*10,150)/150;
+  // Use actual velocity direction to determine if approaching
+  const dot = t.px*(-t.vx) + t.py*(-t.vy);
+  const dir = dot > 0 ? 1 : 0;
+  return Math.min(9, Math.round(((2.5*dn + 1.5*sn + 1.0*rn + 2.0*dir)/7.0)*9));
 }
 
-// Hit probability — based on range and speed
-function calcHitProb(t){
-  const dist=Math.hypot(t.px,t.py)/RAD();
-  const base=0.95-dist*0.5-(t.speed/980)*0.25;
-  return Math.max(5,Math.min(99,Math.round(base*100)));
+function hitProb(t){
+  const d = Math.hypot(t.px,t.py)/RAD();
+  return Math.max(5, Math.min(99, Math.round((0.95 - d*0.5 - (t.speed/980)*0.25)*100)));
 }
 
-// ── PARSE DATA ────────────────────────────────────────────────────
-function parseData(inputTxt,verilogTxt){
-  const iL=inputTxt.trim().split('\n');
-  const tL=verilogTxt.trim().split('\n');
-  const maxR=RAD();
-  targets=[];
+// ── PARSE ──
+function parseData(iTxt, vTxt){
+  const iL = iTxt.trim().split('\n');
+  const vL = vTxt.trim().split('\n');
+  const r  = RAD();
+  targets  = [];
 
-  for(let i=0;i<iL.length;i++){
-    const p=iL[i].trim().split(/\s+/);
-    if(p.length<4) continue;
-    const speed=parseInt(p[0]),dist=parseInt(p[1]),rcs=parseFloat(p[2]),approach=parseInt(p[3]);
-    const vScore=tL[i]!==undefined?parseInt(tL[i].trim()):0;
-    const angle=(i/iL.length)*Math.PI*2+0.4;
-    const spawnFrac=0.80+(i%4)*0.04;
-    const pxDist=maxR*spawnFrac;
-    const spx=0.038+(speed/980)*0.042;
-    const vx=-Math.cos(angle)*spx*(approach===1?1:-0.18);
-    const vy=-Math.sin(angle)*spx*(approach===1?1:-0.18);
+  for(let i=0; i<iL.length; i++){
+    const p = iL[i].trim().split(/\s+/);
+    if(p.length < 4) continue;
+
+    const speed    = parseInt(p[0]);
+    const dist     = parseInt(p[1]);
+    const rcs      = parseFloat(p[2]);
+    const approach = parseInt(p[3]);
+    const vScore   = vL[i] ? parseInt(vL[i].trim()) : 0;
+
+    // Spawn angle — evenly around 360°
+    const angle = (i / iL.length) * Math.PI * 2 + 0.4;
+
+    // Spawn radius — outer edge 80–94%
+    const frac    = 0.80 + (i % 4) * 0.04;
+    const pxDist  = r * frac;
+
+    // Speed per type — missiles fast, drones slow (reduced speeds)
+    let spd;
+    if(speed >= 700)      spd = 0.40 + (speed/980)*0.25;  // 0.40–0.65  (was 0.85–1.40)
+    else if(speed >= 300) spd = 0.20 + (speed/980)*0.15;  // 0.20–0.35  (was 0.45–0.80)
+    else                  spd = 0.08 + (speed/980)*0.08;  // 0.08–0.16  (was 0.20–0.38)
+
+    // Initial heading toward centre (approaching) or outward (receding)
+    const spread = (Math.random()-0.5)*0.6;
+    const hdg    = approach===1 ? (Math.PI + angle + spread) : (angle + spread);
+
+    // Max turn rate per type
+    const mxT = speed>=700 ? 0.038 : speed>=300 ? 0.024 : 0.014;
+
     targets.push({
-      id:i+1,speed,dist,rcs,approach,vScore,
-      threat:vScore,angle,spawnDist:pxDist,spx,
-      px:Math.cos(angle)*pxDist,py:Math.sin(angle)*pxDist,vx,vy,
-      trail:[],  // position history for trail rendering
+      id:i+1, speed, dist, rcs, approach, vScore,
+      threat: vScore,
+      angle,
+      spawnR: pxDist,
+      spd,
+      px: Math.cos(angle)*pxDist,
+      py: Math.sin(angle)*pxDist,
+      vx: Math.cos(hdg)*spd,
+      vy: Math.sin(hdg)*spd,
+      hdg,
+      mxT,
+      // waypoint
+      wpX: (Math.random()-0.5)*r*0.35,
+      wpY: (Math.random()-0.5)*r*0.35,
+      wpT: 0,
+      wpI: 90+Math.random()*110,
+      // evasive
+      ev: false,
+      evT: 0,
+      // trail
+      trail: [],
     });
-    threatHistory[i+1]=[];
+    thHist[i+1] = [];
   }
+
   targets.sort((a,b)=>b.threat-a.threat);
-  addLog('DATA LOADED — '+targets.length+' TARGETS ACQUIRED');
-  addLog('VERILOG RTL SCORES APPLIED');
+  log('DATA LOADED — '+targets.length+' TARGETS');
+  log('RTL SCORES APPLIED');
   targets.forEach(t=>{
-    if(getType(t.speed)==='MISSILE'){
-      addLog('⚠ MISSILE TGT-'+String(t.id).padStart(3,'0')+'  SCORE:'+t.vScore);
-      playMissileAlert();
+    if(tp(t.speed)==='MISSILE'){
+      log('⚠ MISSILE TGT-'+String(t.id).padStart(3,'0')+' SCORE:'+t.vScore);
+      beep(880,0.4,'sawtooth',0.18);
     }
   });
-  refreshPanels(); refreshList();
+  refresh(); refreshList();
 }
 
-// ── FILE LOADER ───────────────────────────────────────────────────
+// ── FILE LOAD ──
 async function loadFiles(){
-  bootProg(15); bootStat('READING data/input_data.txt...');
-  let iText,vText;
+  bp(15); bs('READING data/input_data.txt...');
+  let iT, vT;
   try{
-    const r=await fetch('data/input_data.txt');
+    const r = await fetch('data/input_data.txt');
     if(!r.ok) throw new Error('HTTP '+r.status);
-    iText=await r.text(); bootProg(50); bootStat('✔ input_data.txt loaded');
-  }catch(e){ bootStat('ERROR: input_data.txt — '+e.message+'. Run MATLAB first.'); return; }
+    iT = await r.text(); bp(52); bs('✔ input_data.txt loaded');
+  }catch(e){ bs('ERROR: '+e.message+' — Run MATLAB first.'); return; }
   try{
-    const r=await fetch('data/verilog_output.txt');
+    const r = await fetch('data/verilog_output.txt');
     if(!r.ok) throw new Error('HTTP '+r.status);
-    vText=await r.text(); bootProg(85); bootStat('✔ verilog_output.txt loaded');
-  }catch(e){ bootStat('ERROR: verilog_output.txt — '+e.message+'. Run ModelSim first.'); return; }
-  bootProg(100); bootStat('RADAR ONLINE — ALL SYSTEMS GO');
-  await new Promise(r=>setTimeout(r,400));
+    vT = await r.text(); bp(88); bs('✔ verilog_output.txt loaded');
+  }catch(e){ bs('ERROR: '+e.message+' — Run ModelSim first.'); return; }
+  bp(100); bs('RADAR ONLINE — ALL SYSTEMS GO');
+  await new Promise(r=>setTimeout(r,380));
   document.getElementById('boot').style.display='none';
-  startMs=Date.now();
-  parseData(iText,vText);
+  startMs = Date.now();
+  parseData(iT, vT);
   loop();
 }
-function bootProg(p){ document.getElementById('bbar').style.width=p+'%'; }
-function bootStat(m){ document.getElementById('bstat').textContent=m; }
+function bp(p){ document.getElementById('bpbar').style.width=p+'%'; }
+function bs(m){ document.getElementById('bstat').textContent=m; }
 
-// ── LOG ───────────────────────────────────────────────────────────
-function addLog(msg){
-  const d=new Date();
-  const ts=[d.getHours(),d.getMinutes(),d.getSeconds()].map(n=>n.toString().padStart(2,'0')).join(':');
-  logLines.unshift('['+ts+'] '+msg);
-  if(logLines.length>20) logLines.pop();
-  document.getElementById('log').innerHTML=logLines.join('<br>');
+// ── LOG ──
+function log(msg){
+  const d  = new Date();
+  const ts = [d.getHours(),d.getMinutes(),d.getSeconds()]
+               .map(n=>n.toString().padStart(2,'0')).join(':');
+  logs.unshift('['+ts+'] '+msg);
+  if(logs.length>20) logs.pop();
+  document.getElementById('log').innerHTML = logs.join('<br>');
 }
 
-// ── RESET TARGET ──────────────────────────────────────────────────
-function resetTarget(t){
-  t.px=Math.cos(t.angle)*t.spawnDist;
-  t.py=Math.sin(t.angle)*t.spawnDist;
-  t.vx=-Math.cos(t.angle)*t.spx*(t.approach===1?1:-0.18);
-  t.vy=-Math.sin(t.angle)*t.spx*(t.approach===1?1:-0.18);
-  t.trail=[];
+// ── RESET TARGET ──
+function resetT(t){
+  const r  = RAD();
+  t.px     = Math.cos(t.angle)*t.spawnR;
+  t.py     = Math.sin(t.angle)*t.spawnR;
+  const sp = (Math.random()-0.5)*0.6;
+  t.hdg    = Math.PI + t.angle + sp;
+  t.vx     = Math.cos(t.hdg)*t.spd;
+  t.vy     = Math.sin(t.hdg)*t.spd;
+  t.ev     = false; t.evT = 0;
+  t.wpX    = (Math.random()-0.5)*r*0.35;
+  t.wpY    = (Math.random()-0.5)*r*0.35;
+  t.wpT    = 0; t.trail = [];
 }
 
-// ── FIRE INTERCEPTOR ──────────────────────────────────────────────
-function fireInterceptor(){
-  if(!selected){ addLog('NO TARGET SELECTED'); return; }
-  const t=selected;
-  const ispd=Math.max(0.35,Math.hypot(t.vx,t.vy)*3.5);
-  const ang=Math.atan2(t.py,t.px);
-  interceptors.push({tid:t.id,px:0,py:0,vx:Math.cos(ang)*ispd,vy:Math.sin(ang)*ispd,age:0,trail:[]});
-  interceptFired++;
-  playLaunch();
-  const ts=new Date().toTimeString().slice(0,8);
-  engagementLog.push({time:ts,event:'LAUNCH',target:'TGT-'+String(t.id).padStart(3,'0'),type:getType(t.speed),threat:t.threat});
-  addLog('⬆ INTERCEPTOR-'+interceptFired+' → TGT-'+String(t.id).padStart(3,'0'));
-  refreshPanels();
-}
+// ── MOVE TARGET (maneuvering AI) ──
+function moveT(t){
+  const r = RAD();
+  t.wpT++;
 
-// ── EXPLOSIONS ────────────────────────────────────────────────────
-function spawnExplosion(px,py){
-  for(let i=0;i<18;i++){
-    const ang=Math.random()*Math.PI*2,spd=0.4+Math.random()*2;
-    explosions.push({px,py,vx:Math.cos(ang)*spd,vy:Math.sin(ang)*spd,life:1.0,size:2+Math.random()*4});
+  // Evasive: activate when interceptor is homing on this target
+  const threatened = interceptors.some(ic=>ic.tid===t.id);
+  if(threatened && !t.ev){
+    t.ev=true; t.evT=60+Math.random()*80;
+    log('TGT-'+String(t.id).padStart(3,'0')+' EVASIVE ACTION');
   }
-  screenShake=12;
+  if(t.ev){ t.evT--; if(t.evT<=0) t.ev=false; }
+
+  // Steering
+  if(t.ev){
+    // Sharp zigzag during evasion
+    t.hdg += t.mxT*2.2 * Math.sin(frame*0.28 + t.id*1.9);
+  } else {
+    // Assign new waypoint periodically
+    if(t.wpT >= t.wpI){
+      t.wpT=0; t.wpI=90+Math.random()*110;
+      // Waypoint: partially toward centre, with random offset
+      const mix = 0.25+Math.random()*0.5;
+      t.wpX = t.px*mix + (Math.random()-0.5)*r*0.45;
+      t.wpY = t.py*mix + (Math.random()-0.5)*r*0.45;
+      // Clamp waypoint inside radar
+      const wd = Math.hypot(t.wpX,t.wpY);
+      if(wd > r*0.82){ const a=Math.atan2(t.wpY,t.wpX); t.wpX=Math.cos(a)*r*0.78; t.wpY=Math.sin(a)*r*0.78; }
+    }
+    // Proportional steering toward waypoint
+    const dh = Math.atan2(t.wpY-t.py, t.wpX-t.px);
+    let err  = dh - t.hdg;
+    while(err >  Math.PI) err -= Math.PI*2;
+    while(err < -Math.PI) err += Math.PI*2;
+    t.hdg += Math.sign(err)*Math.min(Math.abs(err)*0.09, t.mxT);
+  }
+
+  // Speed variation
+  let spd = t.spd;
+  const type = tp(t.speed);
+  if(type==='MISSILE'){
+    // Accelerate as it closes in (terminal phase)
+    spd = t.spd*(1.0 + (1 - Math.hypot(t.px,t.py)/r)*0.15);
+  } else if(type==='DRONE'){
+    spd = t.spd*(0.82 + Math.sin(frame*0.05+t.id)*0.18);
+  }
+
+  t.vx = Math.cos(t.hdg)*spd;
+  t.vy = Math.sin(t.hdg)*spd;
+  t.px += t.vx;
+  t.py += t.vy;
+
+  // Boundary bounce — redirect inward
+  const d = Math.hypot(t.px,t.py);
+  if(d > r-5){
+    const a = Math.atan2(t.py,t.px);
+    t.px = Math.cos(a)*(r-12);
+    t.py = Math.sin(a)*(r-12);
+    t.hdg = Math.atan2(-t.py,-t.px) + (Math.random()-0.5)*0.7;
+    t.vx  = Math.cos(t.hdg)*spd;
+    t.vy  = Math.sin(t.hdg)*spd;
+  }
+
+  // Reached centre
+  if(d < 8){
+    resetT(t);
+    log('⚠ TGT-'+String(t.id).padStart(3,'0')+' REACHED RADAR — RESET');
+  }
 }
 
-// ── AUTO-INTERCEPT ────────────────────────────────────────────────
-function checkAutoIntercept(){
-  if(!features.auto) return;
+// ── FIRE INTERCEPTOR ──
+function fireInterceptor(){
+  if(!selected){ log('NO TARGET SELECTED'); return; }
+  const t   = selected;
+  const isMissile = tp(t.speed)==='MISSILE';
+  const spd = 1.2;
+  const ang = Math.atan2(t.py,t.px);
+  interceptors.push({
+    tid:t.id, px:0, py:0,
+    vx:Math.cos(ang)*spd, vy:Math.sin(ang)*spd,
+    age:0, trail:[]
+  });
+  iFired++;
+  beep(440,0.28,'square',0.13);
+  const ts=new Date().toTimeString().slice(0,8);
+  const isMsl = isMissile;
+  engLog.push({ts,ev:'LAUNCH',tgt:'TGT-'+String(t.id).padStart(3,'0'),tp:tp(t.speed),sc:t.threat});
+  log((isMsl?'🚀 MISSILE INTERCEPT-':'⬆ INTERCEPTOR-')+iFired+' → TGT-'+String(t.id).padStart(3,'0'));
+  refresh();
+}
+document.addEventListener('keydown',e=>{ if(e.key==='i'||e.key==='I') fireInterceptor(); });
+
+// ── EXPLOSION ──
+function spawnExp(px,py){
+  for(let i=0;i<16;i++){
+    const a=Math.random()*Math.PI*2, s=0.5+Math.random()*2.2;
+    explosions.push({px,py,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,sz:2+Math.random()*4});
+  }
+  shake=13;
+}
+
+// ── AUTO INTERCEPT ──
+function autoInt(){
+  if(!F.auto) return;
   targets.forEach(t=>{
-    if(t.threat>=8){
-      const alreadyTargeted=interceptors.some(ic=>ic.tid===t.id);
-      if(!alreadyTargeted){
-        const prev=selected;
-        selected=t;
-        fireInterceptor();
-        selected=prev;
-      }
+    const isMissile = tp(t.speed)==='MISSILE';
+    // Auto-intercept: all missiles immediately, plus any target with threat>=8
+    if((isMissile || t.threat>=8) && !interceptors.some(ic=>ic.tid===t.id)){
+      const prev=selected; selected=t; fireInterceptor(); selected=prev;
     }
   });
 }
 
-// ── PANELS ────────────────────────────────────────────────────────
-function refreshPanels(){
-  const mis=targets.filter(t=>getType(t.speed)==='MISSILE').length;
-  const acft=targets.filter(t=>getType(t.speed)==='AIRCRAFT').length;
-  const dr=targets.filter(t=>getType(t.speed)==='DRONE').length;
-  const maxT=targets.length?Math.max(...targets.map(t=>t.threat)):0;
+// ── REFRESH PANELS ──
+function refresh(){
+  const mis  = targets.filter(t=>tp(t.speed)==='MISSILE').length;
+  const ac   = targets.filter(t=>tp(t.speed)==='AIRCRAFT').length;
+  const dr   = targets.filter(t=>tp(t.speed)==='DRONE').length;
+  const maxT = targets.length ? Math.max(...targets.map(t=>t.threat)) : 0;
 
-  document.getElementById('top-cnt').textContent=targets.length;
-  document.getElementById('lp-cnt').textContent=targets.length;
-  document.getElementById('lp-ms').textContent=mis;
-  document.getElementById('lp-ac').textContent=acft;
-  document.getElementById('lp-dr').textContent=dr;
-  document.getElementById('lp-fired').textContent=interceptFired;
-  document.getElementById('lp-hits').textContent=interceptHits;
-  const ratio=interceptFired>0?Math.round(interceptHits/interceptFired*100)+'%':'—';
-  document.getElementById('lp-ratio').textContent=ratio;
+  document.getElementById('tc').textContent       = targets.length;
+  document.getElementById('lp-cnt').textContent   = targets.length;
+  document.getElementById('lp-ms').textContent    = mis;
+  document.getElementById('lp-ac').textContent    = ac;
+  document.getElementById('lp-dr').textContent    = dr;
+  document.getElementById('lp-fired').textContent = iFired;
+  document.getElementById('lp-hits').textContent  = iHits;
+  document.getElementById('lp-kr').textContent    = iFired>0 ? Math.round(iHits/iFired*100)+'%' : '—';
 
-  const lvl=maxT>=8?'CRITICAL':maxT>=5?'HIGH':maxT>=3?'ELEVATED':'LOW';
-  const tl=document.getElementById('lp-tlvl');
-  tl.textContent=lvl; tl.className='pv lg '+(maxT>=7?'red':'amb');
-  const bar=document.getElementById('lp-tbar');
-  bar.style.width=(maxT*10)+'%';
-  bar.className='bf '+(maxT>=7?'hi':maxT>=4?'mid':'lo');
+  const lvl = maxT>=8?'CRITICAL':maxT>=5?'HIGH':maxT>=3?'ELEVATED':'LOW';
+  const tl  = document.getElementById('lp-tlvl');
+  tl.textContent = lvl;
+  tl.className   = 'pv lg '+(maxT>=7?'red':'amb');
+  const bar = document.getElementById('lp-tbar');
+  bar.style.width  = (maxT*10)+'%';
+  bar.className    = 'bf '+(maxT>=7?'hi':maxT>=4?'md':'lo');
 
   // Signal bars
-  const sb=document.getElementById('sig'); sb.innerHTML='';
+  const sig=document.getElementById('sig'); sig.innerHTML='';
   for(let i=0;i<10;i++){
     const d=document.createElement('div'); d.className='sb';
-    d.style.cssText=`height:${4+i*1.8}px;background:${i<7?'var(--g)':'var(--gdk)'};opacity:${i<7?0.9:0.3}`;
-    sb.appendChild(d);
+    d.style.cssText=`height:${4+i*1.7}px;background:${i<7?'var(--g)':'var(--gdk)'};opacity:${i<7?0.88:0.25}`;
+    sig.appendChild(d);
   }
 
-  document.getElementById('malert').style.display=mis>0?'block':'none';
-  if(mis>0) playMissileAlert();
+  document.getElementById('malert').style.display = mis>0?'block':'none';
+  if(mis>0) beep(880,0.35,'sawtooth',0.14);
 
   // Top threat
-  const sorted=[...targets].sort((a,b)=>b.threat-a.threat);
-  if(sorted.length){
-    const t=sorted[0],tp=getType(t.speed);
-    document.getElementById('tt-id').textContent='TGT-'+String(t.id).padStart(3,'0');
-    const tte=document.getElementById('tt-tp'); tte.textContent=tp;
-    tte.className='pv '+(tp==='MISSILE'?'red':'amb');
-    document.getElementById('tt-sp').textContent=t.speed+' km/h';
-    document.getElementById('tt-ds').textContent=Math.round(Math.hypot(t.px,t.py)/RAD()*350)+' km';
-    document.getElementById('tt-th').textContent=t.threat;
-    document.getElementById('tt-bar').style.width=(t.threat*10)+'%';
-    document.getElementById('tt-st').textContent=tp==='MISSILE'?'⚠ INTERCEPT NOW':'TRACKING';
+  const srt = [...targets].sort((a,b)=>b.threat-a.threat);
+  if(srt.length){
+    const t=srt[0], typ=tp(t.speed);
+    document.getElementById('tt-id').textContent = 'TGT-'+String(t.id).padStart(3,'0');
+    const tte=document.getElementById('tt-tp'); tte.textContent=typ; tte.className='pv '+(typ==='MISSILE'?'red':'amb');
+    document.getElementById('tt-sp').textContent  = t.speed+' km/h';
+    document.getElementById('tt-ds').textContent  = Math.round(Math.hypot(t.px,t.py)/RAD()*350)+' km';
+    document.getElementById('tt-th').textContent  = t.threat;
+    document.getElementById('tt-bar').style.width = (t.threat*10)+'%';
+    document.getElementById('tt-st').textContent  = typ==='MISSILE'?'⚠ INTERCEPT NOW':'TRACKING';
   }
 
   // Selected box
   if(selected){
-    const t=selected,tp=getType(t.speed);
+    const t=selected, typ=tp(t.speed);
     const brg=((Math.atan2(t.py,t.px)*180/Math.PI+360)%360).toFixed(1);
     const rng=Math.round(Math.hypot(t.px,t.py)/RAD()*350);
     document.getElementById('sbox').classList.add('on');
-    document.getElementById('sb-id').textContent='TGT-'+String(t.id).padStart(3,'0');
-    const sbtp=document.getElementById('sb-tp'); sbtp.textContent=tp;
-    sbtp.className='sbv '+(tp==='MISSILE'?'red':'amb');
-    document.getElementById('sb-sp').textContent=t.speed+' km/h';
-    document.getElementById('sb-ds').textContent=rng+' km';
-    document.getElementById('sb-rc').textContent=t.rcs.toFixed(1)+' m²';
-    document.getElementById('sb-br').textContent=brg+'°';
-    document.getElementById('sb-dir').textContent=t.approach===1?'APPROACHING':'RECEDING';
-    document.getElementById('sb-vs').textContent=t.vScore+' (RTL)';
-    document.getElementById('sb-lt').textContent=t.threat+' (live)';
-    document.getElementById('sb-hp').textContent=calcHitProb(t)+'%';
-    document.getElementById('sb-st').textContent=tp==='MISSILE'?'⚠ INTERCEPT':'TRACKING';
-  }else{ document.getElementById('sbox').classList.remove('on'); }
+    document.getElementById('sb-id').textContent  = 'TGT-'+String(t.id).padStart(3,'0');
+    const sbtp=document.getElementById('sb-tp'); sbtp.textContent=typ; sbtp.className='sbv '+(typ==='MISSILE'?'red':'amb');
+    document.getElementById('sb-sp').textContent  = t.speed+' km/h';
+    document.getElementById('sb-ds').textContent  = rng+' km';
+    document.getElementById('sb-rc').textContent  = t.rcs.toFixed(1)+' m²';
+    document.getElementById('sb-br').textContent  = brg+'°';
+    document.getElementById('sb-dir').textContent = t.approach===1?'APPROACHING':'RECEDING';
+    document.getElementById('sb-vs').textContent  = t.vScore+' (RTL)';
+    document.getElementById('sb-lt').textContent  = t.threat+' (live)';
+    document.getElementById('sb-hp').textContent  = hitProb(t)+'%';
+    document.getElementById('sb-st').textContent  = typ==='MISSILE'?'⚠ INTERCEPT':'TRACKING';
+  } else {
+    document.getElementById('sbox').classList.remove('on');
+  }
 }
 
 function refreshList(){
   const list=document.getElementById('tlist'); list.innerHTML='';
   [...targets].sort((a,b)=>b.threat-a.threat).forEach(t=>{
-    const tp=getType(t.speed).toLowerCase();
-    const tc=t.threat>=8?'var(--red)':t.threat>=5?'var(--amb)':'var(--g)';
-    const row=document.createElement('div');
-    row.className='tr '+(tp==='missile'?'mis ':'')+(selected&&selected.id===t.id?'sel':'');
-    row.innerHTML=`<span class="trid">${t.id}</span>`+
-      `<div><div class="ttype ${tp}">${tp.toUpperCase()}</div>`+
+    const typ = tp(t.speed).toLowerCase();
+    const tc  = t.threat>=8?'var(--red)':t.threat>=5?'var(--amb)':'var(--g)';
+    const row = document.createElement('div');
+    row.className='tr '+(typ==='missile'?'mis ':'')+(selected&&selected.id===t.id?'sel':'');
+    row.innerHTML=
+      `<span class="trid">${t.id}</span>`+
+      `<div><div class="ttype ${typ}">${typ.toUpperCase()}</div>`+
       `<div class="tspd">${t.speed} km/h · ${t.rcs.toFixed(1)} m²</div></div>`+
       `<span class="tscr" style="color:${tc}">${t.threat}</span>`;
-    row.addEventListener('click',()=>{ selected=t; refreshPanels(); refreshList(); });
+    row.addEventListener('click',()=>{ selected=t; refresh(); refreshList(); });
     list.appendChild(row);
   });
 }
 
-// ── THREAT GRAPH ──────────────────────────────────────────────────
-function drawThreatGraph(){
-  const gc=document.getElementById('threat-graph');
-  const gctx=gc.getContext('2d');
-  const w=gc.offsetWidth, h=60;
+// ── THREAT GRAPH ──
+function drawGraph(){
+  const gc   = document.getElementById('tgraph');
+  const gx   = gc.getContext('2d');
+  const w    = gc.offsetWidth, h=56;
   gc.width=w; gc.height=h;
-  gctx.clearRect(0,0,w,h);
-  gctx.fillStyle='rgba(0,255,65,0.03)';
-  gctx.fillRect(0,0,w,h);
-
-  const maxPts=60;
-  const colors=['#00ff41','#ffb300','#ff2222','#00ccff','#ff8800',
-                '#8800ff','#00ffff','#ff0088','#88ff00','#ffffff'];
+  gx.clearRect(0,0,w,h);
+  gx.fillStyle='rgba(0,255,65,0.025)'; gx.fillRect(0,0,w,h);
+  const cols=['#00ff41','#ffb300','#ff2222','#00ccff','#ff8800','#8800ff','#00ffff','#ff0088','#88ff00','#fff'];
+  const maxP=60;
   targets.forEach((t,i)=>{
-    const hist=threatHistory[t.id]||[];
-    if(hist.length<2) return;
-    const pts=hist.slice(-maxPts);
-    gctx.beginPath();
-    pts.forEach((v,j)=>{
-      const x=(j/(maxPts-1))*w;
-      const y=h-(v/9)*h*0.85-2;
-      j===0?gctx.moveTo(x,y):gctx.lineTo(x,y);
-    });
-    gctx.strokeStyle=colors[i%colors.length];
-    gctx.lineWidth=1;
-    gctx.globalAlpha=0.7;
-    gctx.stroke();
-    gctx.globalAlpha=1;
+    const h2=thHist[t.id]||[]; if(h2.length<2) return;
+    const pts=h2.slice(-maxP);
+    gx.beginPath();
+    pts.forEach((v,j)=>{ const x=(j/(maxP-1))*w, y=h-(v/9)*h*0.88-2; j===0?gx.moveTo(x,y):gx.lineTo(x,y); });
+    gx.strokeStyle=cols[i%cols.length]; gx.lineWidth=1; gx.globalAlpha=0.65; gx.stroke(); gx.globalAlpha=1;
   });
 }
 
-// ── CLOCK ─────────────────────────────────────────────────────────
+// ── CLOCK ──
 function tick(){
-  const now=new Date();
-  document.getElementById('clock').textContent=
-    [now.getHours(),now.getMinutes(),now.getSeconds()].map(n=>n.toString().padStart(2,'0')).join(':');
+  const n=new Date();
+  document.getElementById('clk').textContent=[n.getHours(),n.getMinutes(),n.getSeconds()].map(v=>v.toString().padStart(2,'0')).join(':');
   const s=Math.floor((Date.now()-startMs)/1000);
-  const ut=[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(n=>n.toString().padStart(2,'0')).join(':');
-  document.getElementById('uptime').textContent=ut;
-  document.getElementById('bt-up').textContent=ut;
+  const ut=[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(v=>v.toString().padStart(2,'0')).join(':');
+  document.getElementById('upt').textContent=ut;
+  document.getElementById('btup').textContent=ut;
 }
 setInterval(tick,1000); tick();
 
-// ── CANVAS EVENTS ─────────────────────────────────────────────────
+// ── CANVAS EVENTS ──
 canvas.addEventListener('click',e=>{
   const r=canvas.getBoundingClientRect();
   const mx=(e.clientX-r.left)*(canvas.width/r.width)-CX();
   const my=(e.clientY-r.top)*(canvas.height/r.height)-CY();
   selected=null;
   targets.forEach(t=>{ if(Math.hypot(mx-t.px,my-t.py)<16) selected=t; });
-  refreshPanels(); refreshList();
+  refresh(); refreshList();
 });
+
 canvas.addEventListener('mousemove',e=>{
   const r=canvas.getBoundingClientRect();
   const mx=(e.clientX-r.left)*(canvas.width/r.width)-CX();
   const my=(e.clientY-r.top)*(canvas.height/r.height)-CY();
   const rng=Math.round(Math.hypot(mx,my)/RAD()*350);
   const brg=((Math.atan2(my,mx)*180/Math.PI+360)%360).toFixed(1);
-  document.getElementById('chud').textContent='BRG: '+brg+'°  //  RNG: '+rng+' km  //  X: '+mx.toFixed(0)+'  Y: '+my.toFixed(0);
-});
-document.addEventListener('keydown',e=>{
-  if(e.key==='i'||e.key==='I') fireInterceptor();
+  document.getElementById('hud').textContent='BRG: '+brg+'°  //  RNG: '+rng+' km';
 });
 
-// ═══════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 //  DRAW FUNCTIONS
-// ═══════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 
 function drawGrid(){
-  const cx=CX(),cy=CY(),maxR=RAD();
+  const cx=CX(), cy=CY(), r=RAD();
   ctx.save();
 
-  // ── THREAT ZONES (colored rings) ──────────────────────────
-  if(features.zones){
-    // Green outer zone — safe
-    ctx.beginPath(); ctx.arc(cx,cy,maxR*0.75,0,Math.PI*2);
-    ctx.strokeStyle='rgba(0,255,65,0.18)'; ctx.lineWidth=1.5; ctx.stroke();
-    ctx.beginPath(); ctx.arc(cx,cy,maxR*0.75,0,Math.PI*2);
-    ctx.fillStyle='rgba(0,255,65,0.025)'; ctx.fill();
-    // Amber middle zone — caution
-    ctx.beginPath(); ctx.arc(cx,cy,maxR*0.45,0,Math.PI*2);
-    ctx.strokeStyle='rgba(255,179,0,0.25)'; ctx.lineWidth=1.5; ctx.stroke();
-    ctx.beginPath(); ctx.arc(cx,cy,maxR*0.45,0,Math.PI*2);
-    ctx.fillStyle='rgba(255,179,0,0.03)'; ctx.fill();
-    // Red inner zone — critical
-    ctx.beginPath(); ctx.arc(cx,cy,maxR*0.2,0,Math.PI*2);
-    ctx.strokeStyle='rgba(255,34,34,0.35)'; ctx.lineWidth=1.5; ctx.stroke();
-    ctx.beginPath(); ctx.arc(cx,cy,maxR*0.2,0,Math.PI*2);
-    ctx.fillStyle='rgba(255,34,34,0.05)'; ctx.fill();
-    // Zone labels
-    ctx.fillStyle='rgba(0,255,65,0.3)'; ctx.font='7px Share Tech Mono'; ctx.textAlign='left';
-    ctx.fillText('SAFE',cx+maxR*0.75+4,cy-4);
-    ctx.fillStyle='rgba(255,179,0,0.5)';
-    ctx.fillText('CAUTION',cx+maxR*0.45+4,cy-4);
-    ctx.fillStyle='rgba(255,34,34,0.7)';
-    ctx.fillText('CRITICAL',cx+maxR*0.2+4,cy-4);
+  // Threat zones
+  if(F.zones){
+    const zones=[
+      {fr:0.75, sc:'rgba(0,255,65,0.16)',  fc:'rgba(0,255,65,0.022)',  lbl:'SAFE',     lc:'rgba(0,255,65,0.28)'},
+      {fr:0.45, sc:'rgba(255,179,0,0.22)', fc:'rgba(255,179,0,0.028)', lbl:'CAUTION',  lc:'rgba(255,179,0,0.48)'},
+      {fr:0.20, sc:'rgba(255,34,34,0.32)', fc:'rgba(255,34,34,0.045)', lbl:'CRITICAL', lc:'rgba(255,34,34,0.68)'},
+    ];
+    zones.forEach(z=>{
+      ctx.beginPath(); ctx.arc(cx,cy,r*z.fr,0,Math.PI*2);
+      ctx.strokeStyle=z.sc; ctx.lineWidth=1.5; ctx.stroke();
+      ctx.fillStyle=z.fc; ctx.fill();
+      ctx.fillStyle=z.lc; ctx.font='7px Share Tech Mono'; ctx.textAlign='left';
+      ctx.fillText(z.lbl, cx+r*z.fr+5, cy-4);
+    });
   }
 
   // Crosshairs
-  ctx.strokeStyle='rgba(0,255,65,0.07)'; ctx.lineWidth=1; ctx.setLineDash([3,10]);
-  ctx.beginPath(); ctx.moveTo(cx,cy-maxR-4); ctx.lineTo(cx,cy+maxR+4); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(cx-maxR-4,cy); ctx.lineTo(cx+maxR+4,cy); ctx.stroke();
-  ctx.strokeStyle='rgba(0,255,65,0.04)';
-  [45,135,225,315].forEach(deg=>{
-    const a=deg*Math.PI/180;
-    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(a)*maxR,cy+Math.sin(a)*maxR); ctx.stroke();
-  });
+  ctx.strokeStyle='rgba(0,255,65,0.06)'; ctx.lineWidth=1; ctx.setLineDash([3,10]);
+  ctx.beginPath(); ctx.moveTo(cx,cy-r-4); ctx.lineTo(cx,cy+r+4); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx-r-4,cy); ctx.lineTo(cx+r+4,cy); ctx.stroke();
+  ctx.strokeStyle='rgba(0,255,65,0.035)';
+  [45,135,225,315].forEach(d=>{ const a=d*Math.PI/180; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r); ctx.stroke(); });
   ctx.setLineDash([]);
 
-  // Range rings with km labels
+  // Range rings
   [0.25,0.5,0.75,1.0].forEach((f,i)=>{
-    const r=maxR*f;
-    ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
-    ctx.strokeStyle=`rgba(0,255,65,${0.07+i*0.04})`; ctx.lineWidth=i===3?1.5:1; ctx.stroke();
-    ctx.fillStyle='rgba(0,255,65,0.22)'; ctx.font='8px Share Tech Mono'; ctx.textAlign='left';
-    ctx.fillText(Math.round(f*350)+' km',cx+r+3,cy+10);
+    const ri=r*f;
+    ctx.beginPath(); ctx.arc(cx,cy,ri,0,Math.PI*2);
+    ctx.strokeStyle=`rgba(0,255,65,${0.065+i*0.04})`; ctx.lineWidth=i===3?1.5:1; ctx.stroke();
+    ctx.fillStyle='rgba(0,255,65,0.2)'; ctx.font='8px Share Tech Mono'; ctx.textAlign='left';
+    ctx.fillText(Math.round(f*350)+' km', cx+ri+3, cy+10);
   });
 
   // Tick marks
   for(let i=0;i<72;i++){
-    const a=i/72*Math.PI*2,r1=maxR,r2=maxR+(i%6===0?9:4);
-    ctx.beginPath(); ctx.moveTo(cx+r1*Math.cos(a),cy+r1*Math.sin(a));
-    ctx.lineTo(cx+r2*Math.cos(a),cy+r2*Math.sin(a));
-    ctx.strokeStyle=i%6===0?'rgba(0,255,65,0.55)':'rgba(0,255,65,0.17)';
-    ctx.lineWidth=1; ctx.stroke();
+    const a=i/72*Math.PI*2, r1=r, r2=r+(i%6===0?9:4);
+    ctx.beginPath(); ctx.moveTo(cx+r1*Math.cos(a),cy+r1*Math.sin(a)); ctx.lineTo(cx+r2*Math.cos(a),cy+r2*Math.sin(a));
+    ctx.strokeStyle=i%6===0?'rgba(0,255,65,0.52)':'rgba(0,255,65,0.15)'; ctx.lineWidth=1; ctx.stroke();
   }
 
-  // Compass rose
+  // Compass
   const dirs=['N','NE','E','SE','S','SW','W','NW'];
   ctx.textAlign='center';
   dirs.forEach((d,i)=>{
     const a=i/8*Math.PI*2-Math.PI/2;
-    ctx.fillStyle=d==='N'?'rgba(0,255,65,0.95)':'rgba(0,255,65,0.38)';
+    ctx.fillStyle=d==='N'?'rgba(0,255,65,0.92)':'rgba(0,255,65,0.36)';
     ctx.font='9px Share Tech Mono';
-    ctx.fillText(d,cx+(maxR+20)*Math.cos(a),cy+(maxR+20)*Math.sin(a)+3);
+    ctx.fillText(d, cx+(r+20)*Math.cos(a), cy+(r+20)*Math.sin(a)+3);
   });
   ctx.textAlign='left';
   ctx.restore();
 }
 
-// ── SWEEP ─────────────────────────────────────────────────────────
-let sweepAng=0;
+let swAng=0;
 function drawSweep(){
-  const cx=CX(),cy=CY(),maxR=RAD();
-  sweepAng=(Date.now()/600)%(Math.PI*2);
-  for(let i=0;i<36;i++){
-    const f=i/36,a0=sweepAng-0.7*(1-f),a1=sweepAng-0.7*(1-f-1/36);
-    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,maxR,a0,a1);
-    ctx.closePath(); ctx.fillStyle=`rgba(0,255,65,${0.02*f})`; ctx.fill();
+  const cx=CX(), cy=CY(), r=RAD();
+  swAng = (Date.now()/600)%(Math.PI*2);
+  for(let i=0;i<38;i++){
+    const f=i/38, a0=swAng-0.68*(1-f), a1=swAng-0.68*(1-f-1/38);
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,a0,a1); ctx.closePath();
+    ctx.fillStyle=`rgba(0,255,65,${0.019*f})`; ctx.fill();
   }
   ctx.save();
-  ctx.beginPath(); ctx.moveTo(cx,cy);
-  ctx.lineTo(cx+maxR*Math.cos(sweepAng),cy+maxR*Math.sin(sweepAng));
-  ctx.strokeStyle='rgba(0,255,65,0.95)'; ctx.lineWidth=1.5;
-  ctx.shadowColor='#00ff41'; ctx.shadowBlur=8; ctx.stroke(); ctx.restore();
+  ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+r*Math.cos(swAng),cy+r*Math.sin(swAng));
+  ctx.strokeStyle='rgba(0,255,65,0.92)'; ctx.lineWidth=1.5; ctx.shadowColor='#00ff41'; ctx.shadowBlur=9; ctx.stroke();
+  ctx.restore();
 }
 
-// ── TARGETS ───────────────────────────────────────────────────────
 function drawTargets(){
-  const cx=CX(),cy=CY(),maxR=RAD();
-
+  const cx=CX(), cy=CY();
   targets.forEach(t=>{
     // Move
-    t.px+=t.vx; t.py+=t.vy;
-    const d=Math.hypot(t.px,t.py);
+    moveT(t);
+    t.threat = liveThreat(t);
 
-    // Reached centre
-    if(d<6&&t.approach===1){
-      resetTarget(t);
-      addLog('⚠ TGT-'+String(t.id).padStart(3,'0')+' REACHED RADAR — RESET');
-      return;
-    }
-    // Boundary
-    if(d>maxR-4){
-      const a=Math.atan2(t.py,t.px);
-      t.px=Math.cos(a)*(maxR-14); t.py=Math.sin(a)*(maxR-14);
-      t.vx*=-0.5; t.vy*=-0.5;
-    }
+    // Trail
+    if(frame%4===0){ t.trail.push({x:t.px,y:t.py}); if(t.trail.length>35) t.trail.shift(); }
 
-    t.threat=calcLiveThreat(t);
+    // History for graph
+    if(frame%20===0){ if(!thHist[t.id]) thHist[t.id]=[]; thHist[t.id].push(t.threat); if(thHist[t.id].length>60) thHist[t.id].shift(); }
 
-    // Save trail position (every 4 frames to avoid too many points)
-    if(frame%4===0){
-      t.trail.push({x:t.px,y:t.py});
-      if(t.trail.length>30) t.trail.shift();
-    }
-
-    // Record threat history for graph
-    if(frame%20===0){
-      if(!threatHistory[t.id]) threatHistory[t.id]=[];
-      threatHistory[t.id].push(t.threat);
-      if(threatHistory[t.id].length>60) threatHistory[t.id].shift();
-    }
-
-    const x=cx+t.px,y=cy+t.py;
-    const tp=getType(t.speed);
-    const col=tp==='MISSILE'?'#ff2222':tp==='AIRCRAFT'?'#ffb300':'#00ff41';
+    const x=cx+t.px, y=cy+t.py;
+    const type=tp(t.speed);
+    const col=type==='MISSILE'?'#ff2222':type==='AIRCRAFT'?'#ffb300':'#00ff41';
 
     ctx.save();
 
-    // ── TARGET TRAIL ──────────────────────────────────────────
-    if(features.trails&&t.trail.length>1){
+    // Draw trail
+    if(F.trails && t.trail.length>1){
       for(let i=1;i<t.trail.length;i++){
-        const alpha=(i/t.trail.length)*0.35;
+        const al=(i/t.trail.length)*0.38;
         ctx.beginPath();
-        ctx.moveTo(cx+t.trail[i-1].x,cy+t.trail[i-1].y);
-        ctx.lineTo(cx+t.trail[i].x,cy+t.trail[i].y);
-        ctx.strokeStyle=col.replace(')',`,${alpha})`).replace('rgb','rgba').replace('#','rgba(').replace('22','34,34,').replace('b3','179,0,').replace('41','65,').replace('ff00','255,0,');
-        // simpler approach:
-        if(col==='#ff2222') ctx.strokeStyle=`rgba(255,34,34,${alpha})`;
-        else if(col==='#ffb300') ctx.strokeStyle=`rgba(255,179,0,${alpha})`;
-        else ctx.strokeStyle=`rgba(0,255,65,${alpha})`;
-        ctx.lineWidth=1.2; ctx.stroke();
+        ctx.moveTo(cx+t.trail[i-1].x, cy+t.trail[i-1].y);
+        ctx.lineTo(cx+t.trail[i].x,   cy+t.trail[i].y);
+        if(col==='#ff2222')      ctx.strokeStyle=`rgba(255,34,34,${al})`;
+        else if(col==='#ffb300') ctx.strokeStyle=`rgba(255,179,0,${al})`;
+        else                      ctx.strokeStyle=`rgba(0,255,65,${al})`;
+        ctx.lineWidth=1.4; ctx.stroke();
       }
     }
 
-    // Halo
+    // Halo (orange when evasive)
     ctx.beginPath(); ctx.arc(x,y,12,0,Math.PI*2);
-    ctx.fillStyle=tp==='MISSILE'?'rgba(255,34,34,0.08)':'rgba(0,255,65,0.05)'; ctx.fill();
+    ctx.fillStyle=t.ev?'rgba(255,140,0,0.10)':type==='MISSILE'?'rgba(255,34,34,0.07)':'rgba(0,255,65,0.04)';
+    ctx.fill();
+
     ctx.shadowColor=col; ctx.shadowBlur=10;
 
     // Shape
-    if(tp==='DRONE'){
+    if(type==='DRONE'){
       ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fillStyle=col; ctx.fill();
-      ctx.strokeStyle=col; ctx.lineWidth=0.8; ctx.globalAlpha=0.45;
+      ctx.strokeStyle=col; ctx.lineWidth=0.8; ctx.globalAlpha=0.42;
       ctx.beginPath(); ctx.moveTo(x-7,y); ctx.lineTo(x+7,y); ctx.stroke();
       ctx.beginPath(); ctx.moveTo(x,y-7); ctx.lineTo(x,y+7); ctx.stroke();
       ctx.globalAlpha=1;
-    }else if(tp==='AIRCRAFT'){
+    } else if(type==='AIRCRAFT'){
       ctx.beginPath(); ctx.moveTo(x,y-8); ctx.lineTo(x+6,y); ctx.lineTo(x,y+8); ctx.lineTo(x-6,y);
       ctx.closePath(); ctx.strokeStyle=col; ctx.lineWidth=1.8; ctx.stroke();
-    }else{
+    } else {
       ctx.beginPath(); ctx.moveTo(x,y-9); ctx.lineTo(x+6,y+5); ctx.lineTo(x-6,y+5);
       ctx.closePath(); ctx.strokeStyle=col; ctx.lineWidth=2; ctx.stroke();
-      const pr=11+(Math.sin(Date.now()/180)+1)*4;
+      // Pulse ring
+      const pr=11+(Math.sin(Date.now()/175)+1)*4;
       ctx.beginPath(); ctx.arc(x,y,pr,0,Math.PI*2);
-      ctx.strokeStyle='rgba(255,34,34,0.4)'; ctx.lineWidth=1; ctx.shadowBlur=0; ctx.stroke();
+      ctx.strokeStyle='rgba(255,34,34,0.38)'; ctx.lineWidth=1; ctx.shadowBlur=0; ctx.stroke();
     }
 
     // Lock reticle
-    if(selected&&selected.id===t.id){
+    if(selected && selected.id===t.id){
       ctx.setLineDash([4,4]);
       ctx.beginPath(); ctx.arc(x,y,18,0,Math.PI*2);
-      ctx.strokeStyle=col; ctx.lineWidth=1.5; ctx.shadowBlur=12; ctx.stroke();
-      ctx.setLineDash([]);
+      ctx.strokeStyle=col; ctx.lineWidth=1.5; ctx.shadowBlur=12; ctx.stroke(); ctx.setLineDash([]);
       [[1,1],[1,-1],[-1,1],[-1,-1]].forEach(([sx,sy])=>{
         ctx.beginPath();
         ctx.moveTo(x+sx*24,y+sy*15); ctx.lineTo(x+sx*24,y+sy*24); ctx.lineTo(x+sx*15,y+sy*24);
@@ -834,195 +977,174 @@ function drawTargets(){
       });
     }
 
-    // Velocity vector
-    ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+t.vx*22,y+t.vy*22);
-    ctx.strokeStyle=col; ctx.lineWidth=0.8; ctx.globalAlpha=0.35; ctx.shadowBlur=0; ctx.stroke();
-    ctx.globalAlpha=1;
+    // Velocity vector — shows current heading direction
+    ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+t.vx*18,y+t.vy*18);
+    ctx.strokeStyle=col; ctx.lineWidth=1; ctx.globalAlpha=0.48; ctx.shadowBlur=0; ctx.stroke(); ctx.globalAlpha=1;
 
     // Label
     ctx.shadowBlur=4; ctx.fillStyle=col; ctx.font='9px Share Tech Mono';
-    ctx.fillText('T'+String(t.id).padStart(3,'0'),x+15,y-2);
-    ctx.font='7px Share Tech Mono'; ctx.fillStyle='rgba(0,255,65,0.42)';
-    ctx.fillText(tp[0]+tp[1],x+15,y+8);
-    ctx.fillStyle=col; ctx.fillText(t.threat,x+15,y+18);
+    ctx.fillText('T'+String(t.id).padStart(3,'0'), x+15, y-2);
+    ctx.font='7px Share Tech Mono'; ctx.fillStyle='rgba(0,255,65,0.40)';
+    ctx.fillText(type[0]+type[1], x+15, y+8);
+    ctx.fillStyle=col; ctx.fillText(t.threat, x+15, y+18);
 
     ctx.restore();
   });
 }
 
-// ── PREDICTED INTERCEPT POINT (PIP) ──────────────────────────────
-// Draws an X where an interceptor will likely meet the target
 function drawPIP(){
-  if(!features.pip) return;
-  const cx=CX(),cy=CY();
+  if(!F.pip) return;
+  const cx=CX(), cy=CY();
   interceptors.forEach(ic=>{
-    const t=targets.find(t=>t.id===ic.tid);
-    if(!t) return;
-    const ispd=Math.hypot(ic.vx,ic.vy);
-    const dx=t.px-ic.px,dy=t.py-ic.py;
-    const dist=Math.hypot(dx,dy);
-    if(dist<5) return;
-    const timeToHit=dist/ispd;
-    const pipX=cx+t.px+t.vx*timeToHit;
-    const pipY=cy+t.py+t.vy*timeToHit;
+    const t=targets.find(t=>t.id===ic.tid); if(!t) return;
+    const is=Math.hypot(ic.vx,ic.vy), dx=t.px-ic.px, dy=t.py-ic.py, dd=Math.hypot(dx,dy);
+    if(dd<5) return;
+    const tth=dd/is;
+    const px=cx+t.px+t.vx*tth, py=cy+t.py+t.vy*tth;
     ctx.save();
-    ctx.strokeStyle='rgba(0,204,255,0.7)';
-    ctx.lineWidth=1.5; ctx.shadowColor='#00ccff'; ctx.shadowBlur=8;
+    ctx.strokeStyle='rgba(0,204,255,0.68)'; ctx.lineWidth=1.5; ctx.shadowColor='#00ccff'; ctx.shadowBlur=8;
     const s=7;
-    ctx.beginPath(); ctx.moveTo(pipX-s,pipY-s); ctx.lineTo(pipX+s,pipY+s); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(pipX+s,pipY-s); ctx.lineTo(pipX-s,pipY+s); ctx.stroke();
-    // Line from interceptor to PIP
-    ctx.setLineDash([3,6]);
-    ctx.strokeStyle='rgba(0,204,255,0.25)'; ctx.lineWidth=1; ctx.shadowBlur=0;
-    ctx.beginPath(); ctx.moveTo(cx+ic.px,cy+ic.py); ctx.lineTo(pipX,pipY); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle='rgba(0,204,255,0.6)'; ctx.font='7px Share Tech Mono';
-    ctx.fillText('PIP',pipX+9,pipY+3);
+    ctx.beginPath(); ctx.moveTo(px-s,py-s); ctx.lineTo(px+s,py+s); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(px+s,py-s); ctx.lineTo(px-s,py+s); ctx.stroke();
+    ctx.setLineDash([3,6]); ctx.strokeStyle='rgba(0,204,255,0.22)'; ctx.lineWidth=1; ctx.shadowBlur=0;
+    ctx.beginPath(); ctx.moveTo(cx+ic.px,cy+ic.py); ctx.lineTo(px,py); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='rgba(0,204,255,0.58)'; ctx.font='7px Share Tech Mono'; ctx.fillText('PIP',px+8,py+3);
     ctx.restore();
   });
 }
 
-// ── INTERCEPTORS ──────────────────────────────────────────────────
 function drawInterceptors(){
-  const cx=CX(),cy=CY(),maxR=RAD();
-  const HIT_R=18;
+  const cx=CX(), cy=CY(), r=RAD();
+  const HR=20;
   interceptors=interceptors.filter(ic=>{
     ic.age++;
-    const t=targets.find(t=>t.id===ic.tid);
-    if(!t) return false;
-    const dx=t.px-ic.px,dy=t.py-ic.py,dist=Math.hypot(dx,dy);
-    const spd=Math.hypot(ic.vx,ic.vy);
-    if(dist>0.1){ ic.vx=dx/dist*spd; ic.vy=dy/dist*spd; }
-    ic.px+=ic.vx; ic.py+=ic.vy;
-    ic.trail.push({x:ic.px,y:ic.py});
-    if(ic.trail.length>20) ic.trail.shift();
+    const cx2=CX(), cy2=CY();
 
-    if(dist<HIT_R){
-      spawnExplosion(ic.px,ic.py);
-      resetTarget(t);
-      interceptHits++;
-      playExplosion();
-      if(selected&&selected.id===t.id) selected=null;
-      const ts=new Date().toTimeString().slice(0,8);
-      engagementLog.push({time:ts,event:'HIT',target:'TGT-'+String(t.id).padStart(3,'0'),type:getType(t.speed),threat:t.threat});
-      addLog('✔ HIT — TGT-'+String(t.id).padStart(3,'0')+' NEUTRALISED → RESET');
-      refreshPanels(); refreshList();
-      return false;
-    }
-    if(Math.hypot(ic.px,ic.py)>maxR+12||ic.age>900){
-      const ts=new Date().toTimeString().slice(0,8);
-      engagementLog.push({time:ts,event:'MISS',target:'TGT-'+String(t.id).padStart(3,'0'),type:getType(t.speed),threat:t.threat});
-      addLog('✘ MISS — TGT-'+String(t.id).padStart(3,'0'));
-      return false;
-    }
-
-    // Trail
-    if(ic.trail.length>1){
-      ctx.save();
-      for(let i=1;i<ic.trail.length;i++){
-        ctx.beginPath();
-        ctx.moveTo(cx+ic.trail[i-1].x,cy+ic.trail[i-1].y);
-        ctx.lineTo(cx+ic.trail[i].x,cy+ic.trail[i].y);
-        ctx.strokeStyle=`rgba(0,200,255,${(i/ic.trail.length)*0.5})`;
-        ctx.lineWidth=1.5; ctx.stroke();
+    // Helper: draw trail + body at current position
+    function drawIC(){
+      if(ic.trail.length>1){
+        ctx.save();
+        for(let i=1;i<ic.trail.length;i++){
+          ctx.beginPath();
+          ctx.moveTo(cx2+ic.trail[i-1].x, cy2+ic.trail[i-1].y);
+          ctx.lineTo(cx2+ic.trail[i].x,   cy2+ic.trail[i].y);
+          ctx.strokeStyle=`rgba(0,200,255,${(i/ic.trail.length)*0.52})`;
+          ctx.lineWidth=1.5; ctx.stroke();
+        }
+        ctx.restore();
       }
+      const ix=cx2+ic.px, iy=cy2+ic.py;
+      ctx.save(); ctx.translate(ix,iy); ctx.rotate(Math.atan2(ic.vy,ic.vx)+Math.PI/2);
+      ctx.beginPath(); ctx.moveTo(0,-6); ctx.lineTo(4,4); ctx.lineTo(-4,4); ctx.closePath();
+      ctx.fillStyle='#00ccff'; ctx.shadowColor='#00ccff'; ctx.shadowBlur=12; ctx.fill();
       ctx.restore();
     }
 
-    // Body
-    const x=cx+ic.px,y=cy+ic.py;
-    ctx.save();
-    ctx.translate(x,y); ctx.rotate(Math.atan2(ic.vy,ic.vx)+Math.PI/2);
-    ctx.beginPath(); ctx.moveTo(0,-6); ctx.lineTo(4,4); ctx.lineTo(-4,4); ctx.closePath();
-    ctx.fillStyle='#00ccff'; ctx.shadowColor='#00ccff'; ctx.shadowBlur=12; ctx.fill();
-    ctx.restore();
+    // MISSED — fly straight out of radar, still visible
+    if(ic.tid===-1){
+      ic.px+=ic.vx; ic.py+=ic.vy;
+      ic.trail.push({x:ic.px,y:ic.py}); if(ic.trail.length>22) ic.trail.shift();
+      drawIC();
+      return Math.hypot(ic.px,ic.py) < RAD()+60;
+    }
+
+    // HOMING
+    const t=targets.find(t=>t.id===ic.tid); if(!t) return false;
+    const dx=t.px-ic.px, dy=t.py-ic.py, dd=Math.hypot(dx,dy);
+    const spd=Math.hypot(ic.vx,ic.vy);
+    if(dd>0.1){ ic.vx=dx/dd*spd; ic.vy=dy/dd*spd; }
+    ic.px+=ic.vx; ic.py+=ic.vy;
+    ic.trail.push({x:ic.px,y:ic.py}); if(ic.trail.length>22) ic.trail.shift();
+
+    if(dd<HR){
+      const type=tp(t.speed);
+      const missChance = type==='MISSILE' ? 0.45 : type==='AIRCRAFT' ? 0.25 : 0.15;
+      if(Math.random() < missChance){
+        const ts=new Date().toTimeString().slice(0,8);
+        engLog.push({ts,ev:'MISS',tgt:'TGT-'+String(t.id).padStart(3,'0'),tp:type,sc:t.threat});
+        log('✘ MISS — TGT-'+String(t.id).padStart(3,'0')+' EVADED INTERCEPTOR');
+        ic.tid = -1; refresh(); return true;
+      }
+      spawnExp(ic.px,ic.py); resetT(t); iHits++;
+      beep(110,0.55,'sawtooth',0.22);
+      if(selected&&selected.id===t.id) selected=null;
+      const ts=new Date().toTimeString().slice(0,8);
+      engLog.push({ts,ev:'HIT',tgt:'TGT-'+String(t.id).padStart(3,'0'),tp:tp(t.speed),sc:t.threat});
+      log('✔ HIT — TGT-'+String(t.id).padStart(3,'0')+' NEUTRALISED → RESET');
+      refresh(); refreshList(); return false;
+    }
+    if(Math.hypot(ic.px,ic.py)>r+15 || ic.age>1400){
+      const ts=new Date().toTimeString().slice(0,8);
+      engLog.push({ts,ev:'MISS',tgt:'TGT-'+String(t.id).padStart(3,'0'),tp:tp(t.speed),sc:t.threat});
+      log('✘ MISS — TGT-'+String(t.id).padStart(3,'0'));
+      return false;
+    }
+
+    drawIC();
     return true;
   });
 }
 
-// ── EXPLOSIONS ────────────────────────────────────────────────────
 function drawExplosions(){
-  const cx=CX(),cy=CY();
+  const cx=CX(), cy=CY();
   explosions=explosions.filter(p=>{
-    p.life-=0.04; if(p.life<=0) return false;
-    p.px+=p.vx; p.py+=p.vy; p.vx*=0.94; p.vy*=0.94;
-    const x=cx+p.px,y=cy+p.py;
-    const col=p.life>0.5?`rgba(255,${Math.round(180+p.life*60)},0,${p.life})`:`rgba(255,80,0,${p.life})`;
-    ctx.save();
-    ctx.beginPath(); ctx.arc(x,y,p.size*p.life,0,Math.PI*2);
-    ctx.fillStyle=col; ctx.shadowColor='#ff6600'; ctx.shadowBlur=8; ctx.fill();
-    ctx.restore();
+    p.life-=0.038; if(p.life<=0) return false;
+    p.px+=p.vx; p.py+=p.vy; p.vx*=0.93; p.vy*=0.93;
+    const x=cx+p.px, y=cy+p.py;
+    ctx.save(); ctx.beginPath(); ctx.arc(x,y,p.sz*p.life,0,Math.PI*2);
+    ctx.fillStyle=p.life>0.5?`rgba(255,${Math.round(160+p.life*70)},0,${p.life})`:`rgba(255,80,0,${p.life})`;
+    ctx.shadowColor='#ff6600'; ctx.shadowBlur=9; ctx.fill(); ctx.restore();
     return true;
   });
 }
 
-// ── ORIGIN MARKER ─────────────────────────────────────────────────
 function drawOrigin(){
-  const cx=CX(),cy=CY(); ctx.save();
+  const cx=CX(), cy=CY(); ctx.save();
   ctx.beginPath(); ctx.arc(cx,cy,5,0,Math.PI*2);
-  ctx.fillStyle='#00ff41'; ctx.shadowColor='#00ff41'; ctx.shadowBlur=14; ctx.fill();
-  ctx.strokeStyle='rgba(0,255,65,0.45)'; ctx.lineWidth=1; ctx.shadowBlur=0;
+  ctx.fillStyle='#00ff41'; ctx.shadowColor='#00ff41'; ctx.shadowBlur=15; ctx.fill();
+  ctx.strokeStyle='rgba(0,255,65,0.42)'; ctx.lineWidth=1; ctx.shadowBlur=0;
   ctx.beginPath(); ctx.moveTo(cx-10,cy); ctx.lineTo(cx+10,cy); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(cx,cy-10); ctx.lineTo(cx,cy+10); ctx.stroke();
   ctx.restore();
 }
 
-// ── MISSION REPORT ────────────────────────────────────────────────
+// ── MISSION REPORT ──
 function showReport(){
-  const now=new Date();
-  const mis=targets.filter(t=>getType(t.speed)==='MISSILE').length;
-  const ratio=interceptFired>0?Math.round(interceptHits/interceptFired*100)+'%':'N/A';
-  let txt='';
-  txt+='ADIR-7  MISSION REPORT\n';
-  txt+='Generated: '+now.toLocaleString()+'\n';
-  txt+='═'.repeat(50)+'\n\n';
-  txt+='SYSTEM STATS\n';
-  txt+='  Targets Tracked  : '+targets.length+'\n';
-  txt+='  Missiles Detected: '+mis+'\n';
-  txt+='  Interceptors Fired: '+interceptFired+'\n';
-  txt+='  Hits             : '+interceptHits+'\n';
-  txt+='  Misses           : '+(interceptFired-interceptHits)+'\n';
-  txt+='  Kill Ratio       : '+ratio+'\n\n';
-  txt+='CURRENT TARGETS\n';
-  txt+=('ID   Type       Speed    Range    Threat  Dir\n');
-  txt+='-'.repeat(50)+'\n';
+  const n=new Date();
+  const mis=targets.filter(t=>tp(t.speed)==='MISSILE').length;
+  const kr=iFired>0?Math.round(iHits/iFired*100)+'%':'N/A';
+  let txt='ADIR-7  MISSION REPORT\n';
+  txt+='Generated: '+n.toLocaleString()+'\n'+'═'.repeat(50)+'\n\n';
+  txt+='STATS\n';
+  txt+='  Targets Tracked   : '+targets.length+'\n';
+  txt+='  Missiles Detected : '+mis+'\n';
+  txt+='  Interceptors Fired: '+iFired+'\n';
+  txt+='  Hits              : '+iHits+'\n';
+  txt+='  Misses            : '+(iFired-iHits)+'\n';
+  txt+='  Kill Ratio        : '+kr+'\n\n';
+  txt+='TARGETS\n'+'─'.repeat(50)+'\n';
+  txt+='ID   Type       Speed    Range    Threat\n';
   targets.forEach(t=>{
-    const tp=getType(t.speed);
     const rng=Math.round(Math.hypot(t.px,t.py)/RAD()*350);
-    const dir=t.approach===1?'APPROACH':'RECEDE';
-    txt+=(String(t.id).padEnd(5)+tp.padEnd(11)+String(t.speed).padEnd(9)+
-          String(rng).padEnd(9)+String(t.threat).padEnd(8)+dir+'\n');
+    txt+=String(t.id).padEnd(5)+tp(t.speed).padEnd(11)+String(t.speed).padEnd(9)+String(rng).padEnd(9)+t.threat+'\n';
   });
-  txt+='\nENGAGEMENT LOG\n';
-  txt+='-'.repeat(50)+'\n';
-  if(engagementLog.length===0) txt+='  No engagements recorded.\n';
-  engagementLog.forEach(e=>{
-    txt+=`  [${e.time}] ${e.event.padEnd(7)} ${e.target} (${e.type}) THREAT:${e.threat}\n`;
-  });
-  document.getElementById('report-content').textContent=txt;
-  document.getElementById('report-modal').classList.add('on');
+  txt+='\nENGAGEMENT LOG\n'+'─'.repeat(50)+'\n';
+  if(!engLog.length) txt+='  No engagements.\n';
+  engLog.forEach(e=>{ txt+=`  [${e.ts}] ${e.ev.padEnd(7)} ${e.tgt} (${e.tp}) T:${e.sc}\n`; });
+  document.getElementById('rcontent').textContent=txt;
+  document.getElementById('rmodal').classList.add('on');
 }
-
-function closeReport(){ document.getElementById('report-modal').classList.remove('on'); }
-
-function downloadReport(){
-  const txt=document.getElementById('report-content').textContent;
+function closeReport(){ document.getElementById('rmodal').classList.remove('on'); }
+function dlReport(){
   const a=document.createElement('a');
-  a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(txt);
-  a.download='ADIR7_MissionReport_'+Date.now()+'.txt';
-  a.click();
+  a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(document.getElementById('rcontent').textContent);
+  a.download='ADIR7_Report_'+Date.now()+'.txt'; a.click();
 }
 
-// ── MAIN LOOP ─────────────────────────────────────────────────────
+// ── MAIN LOOP ──
 function loop(){
-  // Screen shake
   ctx.save();
-  if(screenShake>0){
-    const s=(screenShake/12)*4;
-    ctx.translate((Math.random()-0.5)*s,(Math.random()-0.5)*s);
-    screenShake--;
-  }
-
+  if(shake>0){ const s=(shake/13)*5; ctx.translate((Math.random()-0.5)*s,(Math.random()-0.5)*s); shake--; }
   ctx.clearRect(-10,-10,canvas.width+20,canvas.height+20);
   drawGrid();
   drawSweep();
@@ -1031,17 +1153,15 @@ function loop(){
   drawInterceptors();
   drawExplosions();
   drawOrigin();
-
   ctx.restore();
 
   frame++;
   if(frame%60===0){
     targets.sort((a,b)=>b.threat-a.threat);
-    refreshPanels(); refreshList();
-    checkAutoIntercept();
-    drawThreatGraph();
+    refresh(); refreshList();
+    autoInt();
+    drawGraph();
   }
-
   requestAnimationFrame(loop);
 }
 
